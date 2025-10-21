@@ -10,40 +10,51 @@
     <link rel="stylesheet" href="./assets/css/output.css">
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="./assets/css/style.css">
+    <link rel="stylesheet" href="./assets/css/tailwind.css">
 </head>
 
 <body>
-    <!-- ################# Header Starts Here#######################--->
-
-    <header id="menu-jk">
-
-        <div id="nav-head" class="header-nav">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-2 col-md-3  col-sm-12">
-                        <img style="width: 100px !important;" src="./assets/images/hk-logo.png" alt="HMS">
-                        <a data-toggle="collapse" data-target="#menu" href="#menu"><i
-                                class="fas d-block d-md-none small-menu fa-bars"></i></a>
+    <!-- Navbar starts from here -->
+    <nav id="Navbar" class="bg-base-100 shadow-sm">
+        <div class="navbar w-5/6 mx-auto">
+            <div class="navbar-start">
+                <div class="dropdown">
+                    <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h8m-8 6h16" />
+                        </svg>
                     </div>
-                    <div id="menu" class="col-lg-8 col-md-9 d-none d-md-block nav-item">
-                        <ul>
-                            <li><a href="#">Home 😀</a></li>
-                            <li><a href="#services">Services</a></li>
-                            <li><a href="#about_us">About Us</a></li>
-                            <li><a href="#gallery">Gallery</a></li>
-                            <li><a href="#contact_us">Contact Us</a></li>
-                            <li><a href="#logins">Logins</a></li>
-                        </ul>
-                    </div>
-                    <div class="col-sm-2 d-none d-lg-block appoint">
-                        <a class="btn btn-success" href="hms/user-login.php">Book an Appointment</a>
-                    </div>
+                    <ul tabindex="-1"
+                        class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow navbar-menus">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Services</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Gallery</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Logins</a></li>
+                    </ul>
                 </div>
-
+                <a class="text-xl">
+                    <img src="./assets/images/logo.png" alt="HeavenKare Logo" class="w-25">
+                </a>
+            </div>
+            <div class="navbar-center hidden lg:flex">
+                <ul class="menu menu-horizontal px-1 navbar-menus">
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">Services</a></li>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Gallery</a></li>
+                    <li><a href="#">Contact Us</a></li>
+                    <li><a href="#">Logins</a></li>
+                </ul>
+            </div>
+            <div class="navbar-end">
+                <a class="btn">Book an Appointment</a>
             </div>
         </div>
-    </header>
+    </nav>
 </body>
 
 </html>
