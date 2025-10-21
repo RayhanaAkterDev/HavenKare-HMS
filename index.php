@@ -323,6 +323,61 @@
         </div>
     </section>
 
+    <!-- Contact us starts from here -->
+    <section id="contact_us" class="bg-gray-50 py-16">
+        <div class="max-w-4xl mx-auto px-6">
+            <!-- Section Title -->
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Contact Us</h2>
+                <p class="text-gray-600">We’d love to hear from you. Please fill out the form below.</p>
+            </div>
+
+            <!-- Contact Form Card -->
+            <div class="bg-white shadow-xl rounded-2xl p-8 md:p-12">
+                <form method="post" class="space-y-6">
+
+                    <!-- Name -->
+                    <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
+                        <label class="md:w-1/3 text-gray-700 font-medium mb-1 md:mb-0">Full Name:</label>
+                        <input type="text" name="fullname" placeholder="Enter your name" required
+                            class="md:w-2/3 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                    </div>
+
+                    <!-- Email -->
+                    <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
+                        <label class="md:w-1/3 text-gray-700 font-medium mb-1 md:mb-0">Email Address:</label>
+                        <input type="email" name="emailid" placeholder="Enter your email" required
+                            class="md:w-2/3 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                    </div>
+
+                    <!-- Mobile -->
+                    <div class="flex flex-col md:flex-row md:items-center md:space-x-4">
+                        <label class="md:w-1/3 text-gray-700 font-medium mb-1 md:mb-0">Mobile Number:</label>
+                        <input type="text" name="mobileno" placeholder="Enter your mobile number" required
+                            class="md:w-2/3 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition" />
+                    </div>
+
+                    <!-- Message -->
+                    <div class="flex flex-col md:flex-row md:items-start md:space-x-4">
+                        <label class="md:w-1/3 text-gray-700 font-medium mb-1 md:mb-0">Message:</label>
+                        <textarea name="description" rows="5" placeholder="Enter your message" required
+                            class="md:w-2/3 px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition resize-none"></textarea>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="flex justify-end">
+                        <button type="submit" name="submit"
+                            class="bg-black text-white font-semibold px-6 py-3 rounded-lg shadow-md w-full">
+                            Send Message
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+
+
+
     <!-- Filtering JS -->
     <script>
     const filterButtons = document.querySelectorAll('.filter-btn');
@@ -350,10 +405,6 @@
         });
     });
     </script>
-
-
-
-
 
 </body>
 
