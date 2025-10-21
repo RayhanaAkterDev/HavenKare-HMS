@@ -31,26 +31,26 @@
                     </div>
                     <ul tabindex="-1"
                         class="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow navbar-menus">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Services</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Gallery</a></li>
-                        <li><a href="#">Contact Us</a></li>
-                        <li><a href="#">Logins</a></li>
+                        <li><a href="#carousel">Home</a></li>
+                        <li><a href="#features">Services</a></li>
+                        <li><a href="#about_us">About Us</a></li>
+                        <li><a href="#gallery">Gallery</a></li>
+                        <li><a href="#contact_us">Contact Us</a></li>
+                        <li><a href="#login-section">Logins</a></li>
                     </ul>
                 </div>
-                <a class="text-xl">
+                <a href="./index.php" class="text-xl">
                     <img src="./assets/images/logo.png" alt="HeavenKare Logo" class="w-25">
                 </a>
             </div>
             <div class="navbar-center hidden lg:flex">
                 <ul class="menu menu-horizontal px-1 navbar-menus">
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Services</a></li>
-                    <li><a href="#">About Us</a></li>
-                    <li><a href="#">Gallery</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">Logins</a></li>
+                    <li><a href="#carousel">Home</a></li>
+                    <li><a href="#features">Services</a></li>
+                    <li><a href="#about_us">About Us</a></li>
+                    <li><a href="#gallery">Gallery</a></li>
+                    <li><a href="#contact_us">Contact Us</a></li>
+                    <li><a href="#login-section">Logins</a></li>
                 </ul>
             </div>
             <div class="navbar-end">
@@ -60,7 +60,7 @@
     </nav>
 
     <!-- Carousel starts from here  -->
-    <div class="carousel w-full">
+    <div id="carousel" class="carousel w-full">
         <div id="slide1" class="carousel-item relative w-full">
             <img src="./assets/images/carousel1.jpg" class="w-full h-[460px] object-cover" />
             <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
@@ -263,7 +263,6 @@
     </section>
 
     <!-- Our gallary starts from here -->
-    <!-- Our Gallery Section -->
     <section id="gallery" class="bg-white py-16">
         <div class="max-w-7xl mx-auto px-6">
             <!-- Section Title -->
@@ -377,7 +376,7 @@
     </section>
 
     <!-- Footer starts from here -->
-    <footer class="bg-gray-900 text-gray-300">
+    <footer id="footer" class="bg-gray-900 text-gray-300">
         <div class="p-12 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10">
 
             <!-- Logo & Short Description -->
@@ -397,11 +396,11 @@
             <div class="space-y-4">
                 <h3 class="text-white text-lg font-semibold mb-2">Quick Links</h3>
                 <ul class="space-y-1 text-gray-400 text-sm">
-                    <li><a href="#about" class="hover:text-blue-400 transition">About</a></li>
-                    <li><a href="#services" class="hover:text-blue-400 transition">Services</a></li>
-                    <li><a href="#logins" class="hover:text-blue-400 transition">Logins</a></li>
+                    <li><a href="#about_us" class="hover:text-blue-400 transition">About</a></li>
+                    <li><a href="#features" class="hover:text-blue-400 transition">Services</a></li>
+                    <li><a href="#login-section" class="hover:text-blue-400 transition">Logins</a></li>
                     <li><a href="#gallery" class="hover:text-blue-400 transition">Gallery</a></li>
-                    <li><a href="#contact" class="hover:text-blue-400 transition">Contact</a></li>
+                    <li><a href="#contact_us" class="hover:text-blue-400 transition">Contact</a></li>
                 </ul>
             </div>
 
