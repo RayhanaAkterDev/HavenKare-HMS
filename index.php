@@ -229,6 +229,41 @@
         </div>
     </section>
 
+    <!-- About our hospital starts from here  -->
+
+    <section id="about_us" class="bg-[#f9f9f9] py-16">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center px-6">
+
+            <!-- Left Image -->
+            <div class="w-full h-full">
+                <img src="./assets/images/about-us.png" alt="About Our Hospital"
+                    class="rounded-2xl shadow-lg w-full h-full object-cover" />
+            </div>
+
+            <!-- Right Content -->
+            <div>
+                <h3 class="text-3xl md:text-4xl font-bold text-gray-800 mb-5">
+                    About Our Hospital
+                </h3>
+                <p class="text-gray-600 leading-relaxed text-justify">
+                    The Hospital Management System (HMS) is designed to replace manual, paper-based processes in
+                    hospitals. It helps
+                    manage patient information, room availability, staff schedules, and patient billing — all in an
+                    efficient,
+                    cost-effective way that saves time and reduces errors.
+                </p>
+                <p class="text-gray-600 leading-relaxed mt-4 text-justify">
+                    HMS streamlines the acquisition, management, and retrieval of critical hospital data — including
+                    patient
+                    records, staff details, room assignments, and operation schedules. By automating these processes,
+                    HMS enhances
+                    accuracy, ensures data integrity, and promotes better use of hospital resources.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
 
 </body>
 
