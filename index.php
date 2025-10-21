@@ -230,7 +230,6 @@
     </section>
 
     <!-- About our hospital starts from here  -->
-
     <section id="about_us" class="bg-[#f9f9f9] py-16">
         <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center px-6">
 
@@ -262,6 +261,97 @@
             </div>
         </div>
     </section>
+
+    <!-- Our gallary starts from here -->
+    <!-- Our Gallery Section -->
+    <section id="gallery" class="bg-white py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <!-- Section Title -->
+            <div class="text-center mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">Our Gallery</h2>
+                <p class="text-gray-600">View Our Gallery</p>
+            </div>
+
+            <!-- Filter Buttons -->
+            <div class="flex flex-wrap justify-center gap-4 mb-8">
+                <button
+                    class="filter-btn bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200 active:bg-blue-300"
+                    data-filter="all">All</button>
+                <button class="filter-btn bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200"
+                    data-filter="dental">Dental</button>
+                <button class="filter-btn bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200"
+                    data-filter="cardiology">Cardiology</button>
+                <button class="filter-btn bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200"
+                    data-filter="neurology">Neurology</button>
+                <button class="filter-btn bg-blue-100 text-blue-700 px-4 py-2 rounded-lg hover:bg-blue-200"
+                    data-filter="laboratory">Laboratory</button>
+            </div>
+
+            <!-- Gallery Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- Gallery Item -->
+                <div class="gallery-item dental">
+                    <img src="assets/images/gallery/gallery_01.jpg" alt="Dental"
+                        class="w-full h-64 object-cover rounded-xl shadow-md">
+                </div>
+
+                <div class="gallery-item cardiology">
+                    <img src="assets/images/gallery/gallery_02.jpg" alt="Cardiology"
+                        class="w-full h-64 object-cover rounded-xl shadow-md">
+                </div>
+
+                <div class="gallery-item dental">
+                    <img src="assets/images/gallery/gallery_03.jpg" alt="Dental"
+                        class="w-full h-64 object-cover rounded-xl shadow-md">
+                </div>
+
+                <div class="gallery-item laboratory">
+                    <img src="assets/images/gallery/gallery_04.jpg" alt="Laboratory"
+                        class="w-full h-64 object-cover rounded-xl shadow-md">
+                </div>
+
+                <div class="gallery-item neurology">
+                    <img src="assets/images/gallery/gallery_05.jpg" alt="Neurology"
+                        class="w-full h-64 object-cover rounded-xl shadow-md">
+                </div>
+
+                <div class="gallery-item neurology">
+                    <img src="assets/images/gallery/gallery_06.jpg" alt="Neurology"
+                        class="w-full h-64 object-cover rounded-xl shadow-md">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Filtering JS -->
+    <script>
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const galleryItems = document.querySelectorAll('.gallery-item');
+
+    filterButtons.forEach(btn => {
+        btn.addEventListener('click', () => {
+            const filter = btn.getAttribute('data-filter');
+
+            galleryItems.forEach(item => {
+                if (filter === 'all') {
+                    item.classList.remove('hidden');
+                } else {
+                    if (item.classList.contains(filter)) {
+                        item.classList.remove('hidden');
+                    } else {
+                        item.classList.add('hidden');
+                    }
+                }
+            });
+
+            // Optional: update active button style
+            filterButtons.forEach(b => b.classList.remove('bg-blue-300'));
+            btn.classList.add('bg-blue-300');
+        });
+    });
+    </script>
+
+
 
 
 
