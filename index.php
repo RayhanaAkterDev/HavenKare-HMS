@@ -15,7 +15,7 @@
 
 <body>
     <!-- Navbar starts from here -->
-    <nav id="Navbar" class="bg-base-100 shadow-sm">
+    <nav id="Navbar" class="shadow-sm sticky top-0 bg-white z-10">
         <div class="navbar w-5/6 mx-auto">
             <div class="navbar-start">
                 <div class="dropdown">
@@ -55,6 +55,178 @@
             </div>
         </div>
     </nav>
+
+    <!-- Carousel starts from here  -->
+    <div class="carousel w-full">
+        <div id="slide1" class="carousel-item relative w-full">
+            <img src="./assets/images/carousel1.jpg" class="w-full h-[460px] object-cover" />
+            <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                <a href="#slide3" class="btn btn-circle">❮</a>
+                <a href="#slide2" class="btn btn-circle">❯</a>
+            </div>
+        </div>
+        <div id="slide2" class="carousel-item relative w-full">
+            <img src="./assets/images/carousel2.jpeg" class="w-full h-[460px] object-cover" />
+            <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                <a href="#slide1" class="btn btn-circle">❮</a>
+                <a href="#slide3" class="btn btn-circle">❯</a>
+            </div>
+        </div>
+        <div id="slide3" class="carousel-item relative w-full">
+            <img src="./assets/images/carousel3.jpg" class="w-full h-[460px] object-cover" />
+            <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
+                <a href="#slide2" class="btn btn-circle">❮</a>
+                <a href="#slide1" class="btn btn-circle">❯</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logins starts from here -->
+    <section id="login-section" class="py-24 bg-[#f9f9f9]">
+        <!-- Section Heading -->
+        <div class="text-center mb-10">
+            <h2 class="text-3xl font-bold text-gray-800">Logins</h2>
+            <p class="text-gray-600">Select your login portal</p>
+        </div>
+
+        <!-- Login Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-10 justify-items-center w-9/12 mx-auto">
+
+            <!-- Patient Login Card -->
+            <div
+                class="card w-80 bg-white shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl border border-gray-200">
+                <figure class="overflow-hidden rounded-t-2xl">
+                    <img src="./assets/images/patient.jpg" alt="Patient Login"
+                        class="w-full h-52 object-cover hover:scale-105 transition-transform duration-500" />
+                </figure>
+                <div class="card-body items-center text-center">
+                    <h2 class="card-title text-lg font-semibold text-gray-800">
+                        Patient Login
+                    </h2>
+                    <p class="text-sm text-gray-500 mb-3">
+                        Access your health records and appointments.
+                    </p>
+
+                    <a href="#" class="btn btn-neutral btn-xs sm:btn-sm md:btn-md lg:btn-lg rounded-xl w-full">
+                        Click Here
+                    </a>
+                </div>
+            </div>
+
+            <!-- Doctor Login Card -->
+            <div
+                class="card w-80 bg-white shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl border border-gray-200">
+                <figure class="overflow-hidden rounded-t-2xl">
+                    <img src="./assets/images/doctor.jpg" alt="Doctor Login"
+                        class="w-full h-52 object-cover hover:scale-105 transition-transform duration-500" />
+                </figure>
+                <div class="card-body items-center text-center">
+                    <h2 class="card-title text-lg font-semibold text-gray-800">
+                        Doctor Login
+                    </h2>
+                    <p class="text-sm text-gray-500 mb-3">
+                        Manage appointments and patient information securely.
+                    </p>
+
+                    <a href="#" class="btn btn-neutral btn-xs sm:btn-sm md:btn-md lg:btn-lg rounded-xl w-full">
+                        Click Here
+                    </a>
+                </div>
+            </div>
+
+            <!-- Admin Login Card -->
+            <div
+                class="card w-80 bg-white shadow-md hover:shadow-lg transition-all duration-300 rounded-2xl border border-gray-200">
+                <figure class="overflow-hidden rounded-t-2xl">
+                    <img src="./assets/images/admin.jpeg" alt="Admin Login"
+                        class="w-full h-52 object-cover hover:scale-105 transition-transform duration-500" />
+                </figure>
+                <div class="card-body items-center text-center">
+                    <h2 class="card-title text-lg font-semibold text-gray-800">
+                        Admin Login
+                    </h2>
+                    <p class="text-sm text-gray-500 mb-3">
+                        Access and control system settings and user data.
+                    </p>
+                    <a href="#" class="btn btn-neutral btn-xs sm:btn-sm md:btn-md lg:btn-lg rounded-xl w-full">
+                        Click Here
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Features starts from here -->
+    <section id="features" class="py-16">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <!-- Section Title -->
+            <div class="mb-12">
+                <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-3">
+                    Our Key Features
+                </h2>
+                <p class="text-gray-600">
+                    Take a look at some of our key features
+                </p>
+            </div>
+
+            <!-- Features Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Single Feature -->
+                <div
+                    class="group bg-gray-50 hover:bg-white rounded-2xl shadow-md hover:shadow-xl transition-all p-8 border border-transparent hover:border-blue-500">
+                    <div class="text-blue-500 text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h5 class="text-xl font-semibold text-gray-800">Cardiology</h5>
+                </div>
+
+                <div
+                    class="group bg-gray-50 hover:bg-white rounded-2xl shadow-md hover:shadow-xl transition-all p-8 border border-transparent hover:border-blue-500">
+                    <div class="text-blue-500 text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-ribbon"></i>
+                    </div>
+                    <h5 class="text-xl font-semibold text-gray-800">Orthopaedic</h5>
+                </div>
+
+                <div
+                    class="group bg-gray-50 hover:bg-white rounded-2xl shadow-md hover:shadow-xl transition-all p-8 border border-transparent hover:border-blue-500">
+                    <div class="text-blue-500 text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fab fa-monero"></i>
+                    </div>
+                    <h5 class="text-xl font-semibold text-gray-800">Neurologist</h5>
+                </div>
+
+                <div
+                    class="group bg-gray-50 hover:bg-white rounded-2xl shadow-md hover:shadow-xl transition-all p-8 border border-transparent hover:border-blue-500">
+                    <div class="text-blue-500 text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-capsules"></i>
+                    </div>
+                    <h5 class="text-xl font-semibold text-gray-800">Pharma Pipeline</h5>
+                </div>
+
+                <div
+                    class="group bg-gray-50 hover:bg-white rounded-2xl shadow-md hover:shadow-xl transition-all p-8 border border-transparent hover:border-blue-500">
+                    <div class="text-blue-500 text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="fas fa-prescription-bottle-alt"></i>
+                    </div>
+                    <h5 class="text-xl font-semibold text-gray-800">Pharma Team</h5>
+                </div>
+
+                <div
+                    class="group bg-gray-50 hover:bg-white rounded-2xl shadow-md hover:shadow-xl transition-all p-8 border border-transparent hover:border-blue-500">
+                    <div class="text-blue-500 text-5xl mb-4 group-hover:scale-110 transition-transform duration-300">
+                        <i class="far fa-thumbs-up"></i>
+                    </div>
+                    <h5 class="text-xl font-semibold text-gray-800">
+                        High Quality Treatments
+                    </h5>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
 </body>
 
 </html>
