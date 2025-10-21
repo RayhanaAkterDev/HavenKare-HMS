@@ -367,7 +367,7 @@
                     <!-- Submit Button -->
                     <div class="flex justify-end">
                         <button type="submit" name="submit"
-                            class="bg-black text-white font-semibold px-6 py-3 rounded-lg shadow-md w-full">
+                            class="bg-gray-900 text-white font-semibold px-6 py-3 rounded-lg shadow-md w-full">
                             Send Message
                         </button>
                     </div>
@@ -375,6 +375,60 @@
             </div>
         </div>
     </section>
+
+    <!-- Footer starts from here -->
+    <footer class="bg-gray-900 text-gray-300">
+        <div class="p-12 max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-10">
+
+            <!-- Logo & Short Description -->
+            <div class="space-y-4 lg:col-span-2">
+                <div class="flex items-center gap-3 mb-2">
+                    <img src="./assets/images/footer-logo.png" alt="HeavenCare Logo" class="w-28 h-auto object-contain">
+                    <span class="text-white text-2xl font-semibold">HeavenCare</span>
+                </div>
+                <p class="text-gray-400 text-sm">
+                    Heaven Care Hospital Management System –
+                    <span class="block mt-1"> providing efficient hospital services
+                        with modern tools and reliable care.</span>
+                </p>
+            </div>
+
+            <!-- Useful Links -->
+            <div class="space-y-4">
+                <h3 class="text-white text-lg font-semibold mb-2">Quick Links</h3>
+                <ul class="space-y-1 text-gray-400 text-sm">
+                    <li><a href="#about" class="hover:text-blue-400 transition">About</a></li>
+                    <li><a href="#services" class="hover:text-blue-400 transition">Services</a></li>
+                    <li><a href="#logins" class="hover:text-blue-400 transition">Logins</a></li>
+                    <li><a href="#gallery" class="hover:text-blue-400 transition">Gallery</a></li>
+                    <li><a href="#contact" class="hover:text-blue-400 transition">Contact</a></li>
+                </ul>
+            </div>
+
+            <!-- Contact Info -->
+            <div class="space-y-4 text-sm">
+                <h3 class="text-white text-lg font-semibold mb-2">Contact Us</h3>
+                <p>House 45, Gulshan Avenue, Dhaka-1212, Bangladesh</p>
+                <p>Phone: +880 1712 345678</p>
+                <p>Email: <a href="mailto:info@heavencare.com"
+                        class="hover:text-blue-400 transition">info@heavencare.com</a></p>
+                <p>Timing: 9 AM – 8 PM</p>
+            </div>
+
+        </div>
+
+        <!-- Social & Copyright -->
+        <div class="border-t border-gray-800 p-5">
+
+
+            <!-- Copyright -->
+            <p class="text-gray-500 text-sm text-center">
+                &copy; 2025 HeavenCare Hospital. All Rights Reserved.
+            </p>
+
+        </div>
+    </footer>
+
 
 
 
