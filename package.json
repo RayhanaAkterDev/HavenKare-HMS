@@ -3,11 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview"
-  },
+"scripts": {
+  "watch:css": "./tailwindcss-windows-x64.exe -i ./assets/css/tailwind.css -o ./assets/css/output.css --watch --content './**/*.php'"
+},
   "devDependencies": {
     "daisyui": "^5.3.7",
     "tailwindcss": "^4.1.15",
@@ -15,7 +13,8 @@
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.1.0",
-    "@tailwindcss/vite": "^4.1.15"
+    "@tailwindcss/vite": "^4.1.15",
+    "flyonui": "^2.4.1"
   },
   "description": "The **HavenKare Hospital Management System (HMS)** is a web-based application designed to manage the daily operations of a hospital. It streamlines tasks such as patient registration, appointment scheduling, doctor management, billing, and inventory tracking, ensuring efficient workflow and accurate record-keeping.",
   "main": "vite.config.js",

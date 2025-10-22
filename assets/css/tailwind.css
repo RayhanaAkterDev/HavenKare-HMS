@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 @plugin "daisyui";
+@plugin "flyonui";
+/* @import './node_modules/flyonui/variants.css';
+@source "./node_modules/flyonui/dist/index.js"; */
 
 :root {
 	background-color: #fff;
