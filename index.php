@@ -54,7 +54,7 @@
                 </ul>
             </div>
             <div class="navbar-end">
-                <a class="btn">Book an Appointment</a>
+                <a href="hms/user-login.php" class="btn">Book an Appointment</a>
             </div>
         </div>
     </nav>
