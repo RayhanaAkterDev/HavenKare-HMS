@@ -912,7 +912,7 @@ html {
 }
 
 .bei-fp-title {
-	@apply text-2xl font-extrabold text-slate-700 text-center mb-2;
+	@apply text-lg lg:text-2xl font-extrabold text-slate-700 text-center mb-2;
 }
 
 .bei-fp-subtext {
@@ -977,5 +977,98 @@ html {
 }
 
 .bei-fp-footer {
+	@apply text-xs text-slate-400 mt-10 text-center;
+}
+
+/* =========================== */
+
+/* reset password page */
+
+.bei-rp-section {
+	@apply flex items-center justify-center min-h-screen px-4 py-10;
+}
+
+.bei-rp-container {
+	@apply w-full max-w-md mx-auto;
+}
+
+.bei-rp-card {
+	@apply relative backdrop-blur-md bg-white/80 shadow-xl rounded-3xl px-8 py-10 flex flex-col items-center transition-all duration-300;
+}
+
+.bei-rp-card:hover {
+	@apply shadow-2xl scale-[1.01];
+}
+
+.bei-rp-icon {
+	@apply text-sky-600 text-6xl mb-5 bg-sky-100 rounded-full p-6 shadow-inner;
+}
+
+.bei-rp-title {
+	@apply text-2xl font-extrabold text-slate-700 text-center mb-2;
+}
+
+.bei-rp-subtext {
+	@apply text-sm text-slate-500 text-center mb-8 max-w-sm;
+}
+
+.bei-rp-error {
+	@apply block text-center text-red-500 text-sm mb-4;
+}
+
+.bei-rp-form {
+	@apply w-full space-y-5;
+}
+
+.bei-rp-field {
+	@apply flex items-center gap-3 bg-[#f2f7fc]/30 border border-slate-200 rounded-lg px-4 py-3 transition duration-200;
+}
+
+.bei-rp-field:hover {
+	@apply border-sky-300;
+}
+
+.bei-rp-field:focus-within {
+	@apply border-sky-500 ring-1 ring-sky-300 bg-white;
+}
+
+.bei-rp-icon-field {
+	@apply text-sky-600 text-base;
+}
+
+.bei-rp-input {
+	@apply w-full text-[15px] text-slate-700 bg-transparent placeholder-slate-400 outline-none;
+}
+
+.bei-rp-input::placeholder {
+	@apply text-slate-400;
+}
+
+.bei-rp-input:-webkit-autofill,
+.bei-rp-input:-webkit-autofill:hover,
+.bei-rp-input:-webkit-autofill:focus,
+.bei-rp-input:-internal-autofill-selected {
+	transition: background-color 9999s ease-in-out 0s !important;
+	-webkit-text-fill-color: #334155 !important;
+	box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+.bei-rp-btn {
+	@apply w-full bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white font-semibold py-3 rounded-xl shadow-md transition-all duration-300 flex items-center justify-center gap-2;
+}
+
+.bei-rp-btn:hover {
+	@apply scale-[1.02];
+}
+
+.bei-rp-login {
+	@apply text-sm text-slate-600 mt-5 text-center;
+}
+
+.bei-rp-login-link {
+	@apply text-sky-600 hover:text-sky-700 hover:underline font-medium;
+}
+
+.bei-rp-footer {
 	@apply text-xs text-slate-400 mt-10 text-center;
 }

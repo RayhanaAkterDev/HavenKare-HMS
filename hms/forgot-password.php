@@ -3,18 +3,18 @@ session_start();
 error_reporting(0);
 include("include/config.php");
 if (isset($_POST['submit'])) {
-	$name = $_POST['fullname'];
-	$email = $_POST['email'];
-	$query = mysqli_query($con, "select id from users where fullName='$name' and email='$email'");
-	$row = mysqli_num_rows($query);
-	if ($row > 0) {
-		$_SESSION['name'] = $name;
-		$_SESSION['email'] = $email;
-		header('location:reset-password.php');
-	} else {
-		echo "<script>alert('Invalid details. Please try with valid details');</script>";
-		echo "<script>window.location.href ='forgot-password.php'</script>";
-	}
+    $name = $_POST['fullname'];
+    $email = $_POST['email'];
+    $query = mysqli_query($con, "select id from users where fullName='$name' and email='$email'");
+    $row = mysqli_num_rows($query);
+    if ($row > 0) {
+        $_SESSION['name'] = $name;
+        $_SESSION['email'] = $email;
+        header('location:reset-password.php');
+    } else {
+        echo "<script>alert('Invalid details. Please try with valid details');</script>";
+        echo "<script>window.location.href ='forgot-password.php'</script>";
+    }
 }
 ?>
 
@@ -55,9 +55,9 @@ if (isset($_POST['submit'])) {
                 <!-- Error message -->
                 <span class="bei-fp-error">
                     <?php
-					echo isset($_SESSION['errmsg']) ? $_SESSION['errmsg'] : '';
-					$_SESSION['errmsg'] = "";
-					?>
+                    echo isset($_SESSION['errmsg']) ? $_SESSION['errmsg'] : '';
+                    $_SESSION['errmsg'] = "";
+                    ?>
                 </span>
 
                 <!-- Form -->
@@ -72,9 +72,9 @@ if (isset($_POST['submit'])) {
                         <input type="email" name="email" placeholder="Email Address" required class="bei-fp-input">
                     </div>
 
-                    <button type="submit" name="submit" class="bei-fp-btn">
+                    <a href="./reset-password.php" type="submit" name="submit" class="bei-fp-btn">
                         Send Reset Link <i class="fa fa-arrow-right ml-2"></i>
-                    </button>
+                    </a>
 
                     <p class="bei-fp-login">
                         Remember your password?
