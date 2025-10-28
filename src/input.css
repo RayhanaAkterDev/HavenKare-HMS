@@ -798,92 +798,184 @@ html {
 /* =============================================== */
 
 /* ===== backend start here ===== */
-@layer components {
-	.bei-login-section {
-		@apply relative overflow-hidden;
-	}
 
-	.bei-login__container {
-		@apply w-11/12 mx-auto py-12;
-	}
+.bei-login-section {
+	@apply relative overflow-hidden;
+}
 
-	.bei-login__flex {
-		@apply w-full max-w-[400px] lg:max-w-[450px] mx-auto flex flex-col shadow-xl rounded-xl;
-	}
+.bei-login__container {
+	@apply w-11/12 mx-auto py-12;
+}
 
-	.bei-login__illustration {
-		@apply relative bg-gradient-to-br from-sky-600 to-sky-800 flex items-center justify-center text-center p-10 pt-13 rounded-t-xl;
-	}
+.bei-login__flex {
+	@apply w-full max-w-[400px] lg:max-w-[450px] mx-auto flex flex-col shadow-xl rounded-xl;
+}
 
-	.bei-login__overlay {
-		@apply absolute inset-0 bg-black/20 backdrop-blur-sm rounded-t-xl;
-	}
+.bei-login__illustration {
+	@apply relative bg-gradient-to-br from-sky-600 to-sky-800 flex items-center justify-center text-center p-10 pt-13 rounded-t-xl;
+}
 
-	.bei-login__content {
-		@apply relative z-10 text-white;
-	}
+.bei-login__overlay {
+	@apply absolute inset-0 bg-black/20 backdrop-blur-sm rounded-t-xl;
+}
 
-	.bei-login__headline {
-		@apply text-2xl font-semibold mb-1;
-	}
+.bei-login__content {
+	@apply relative z-10 text-white;
+}
 
-	.bei-login__text {
-		@apply text-sm text-white/80 max-w-xs mx-auto;
-	}
+.bei-login__headline {
+	@apply text-2xl font-semibold mb-1;
+}
 
-	.bei-login__form-side {
-		@apply bg-white p-8 flex flex-col justify-center rounded-b-xl;
-	}
+.bei-login__text {
+	@apply text-sm text-white/80 max-w-xs mx-auto;
+}
 
-	.bei-login__form-title {
-		@apply text-base font-bold text-slate-600 text-center mb-2;
-	}
+.bei-login__form-side {
+	@apply bg-white p-8 flex flex-col justify-center rounded-b-xl;
+}
 
-	.bei-login__form {
-		@apply space-y-5;
-	}
+.bei-login__form-title {
+	@apply text-base font-bold text-slate-600 text-center mb-2;
+}
 
-	.bei-login__error {
-		@apply block text-center text-red-500 text-sm;
-	}
+.bei-login__form {
+	@apply space-y-5;
+}
 
-	.bei-login__field {
-		@apply flex gap-3 justify-center items-center border p-3 border-slate-300 rounded-xl transition duration-200;
-	}
+.bei-login__error {
+	@apply block text-center text-red-500 text-sm;
+}
 
-	.bei-login__field:focus-within {
-		@apply border-sky-500 ring-2 ring-sky-200;
-	}
+.bei-login__field {
+	@apply flex gap-3 justify-center items-center border p-3 border-slate-300 rounded-xl transition duration-200;
+}
 
-	.bei-login__icon {
-		@apply text-slate-400;
-	}
+.bei-login__field:focus-within {
+	@apply border-sky-500 ring-2 ring-sky-200;
+}
 
-	.bei-login__input {
-		@apply w-full text-sm text-slate-700 placeholder-gray-300 outline-none;
-	}
+.bei-login__icon {
+	@apply text-slate-400;
+}
 
-	.bei-login__actions {
-		@apply text-right;
-	}
+.bei-login__input {
+	@apply w-full text-sm text-slate-700 placeholder-gray-300 outline-none;
+}
 
-	.bei-login__forgot {
-		@apply text-sm text-sky-500/80 hover:text-sky-600 hover:underline transition;
-	}
+.bei-login__actions {
+	@apply text-right;
+}
 
-	.bei-login__btn {
-		@apply w-full bg-sky-600 hover:bg-sky-700 text-white font-medium py-3 rounded-xl shadow-md transition duration-300 flex items-center justify-center;
-	}
+.bei-login__forgot {
+	@apply text-sm text-sky-500/80 hover:text-sky-600 hover:underline transition;
+}
 
-	.bei-login__register {
-		@apply text-center text-sm text-slate-600;
-	}
+.bei-login__btn {
+	@apply w-full bg-sky-600 hover:bg-sky-700 text-white font-bold py-3 rounded-xl shadow-md transition duration-300 flex items-center justify-center;
+}
 
-	.bei-login__register-link {
-		@apply text-sky-600 hover:text-sky-700 hover:underline font-medium;
-	}
+.bei-login__register {
+	@apply text-center text-sm text-slate-600;
+}
 
-	.bei-login__footer {
-		@apply mt-8 text-center text-xs text-slate-400;
-	}
+.bei-login__register-link {
+	@apply text-sky-600 hover:text-sky-700 hover:underline font-medium;
+}
+
+.bei-login__footer {
+	@apply mt-8 text-center text-xs text-slate-400;
+}
+
+/* =========================== */
+
+/* forget password page */
+
+.bei-fp-section {
+	@apply flex items-center justify-center min-h-screen px-4 py-10;
+}
+
+.bei-fp-container {
+	@apply w-full max-w-md mx-auto;
+}
+
+.bei-fp-card {
+	@apply relative backdrop-blur-md bg-white/80 shadow-xl rounded-3xl px-8 py-10 flex flex-col items-center transition-all duration-300;
+}
+
+.bei-fp-card:hover {
+	@apply shadow-2xl scale-[1.01];
+}
+
+.bei-fp-icon {
+	@apply text-sky-600 text-6xl mb-5 bg-sky-100 rounded-full p-6 shadow-inner;
+}
+
+.bei-fp-title {
+	@apply text-2xl font-extrabold text-slate-700 text-center mb-2;
+}
+
+.bei-fp-subtext {
+	@apply text-sm text-slate-500 text-center mb-8 max-w-sm;
+}
+
+.bei-fp-error {
+	@apply block text-center text-red-500 text-sm mb-4;
+}
+
+.bei-fp-form {
+	@apply w-full space-y-5;
+}
+
+.bei-fp-field {
+	@apply flex items-center gap-3 bg-[#f2f7fc]/30 border border-slate-200 rounded-lg px-4 py-3 transition duration-200;
+}
+
+.bei-fp-field:hover {
+	@apply border-sky-300;
+}
+
+.bei-fp-field:focus-within {
+	@apply border-sky-500 ring-1 ring-sky-300 bg-white;
+}
+
+.bei-fp-icon-field {
+	@apply text-sky-600 text-base;
+}
+
+.bei-fp-input {
+	@apply w-full text-[15px] text-slate-700 bg-transparent placeholder-slate-400 outline-none;
+}
+
+.bei-fp-input::placeholder {
+	@apply text-slate-300;
+}
+
+.bei-fp-input:-webkit-autofill,
+.bei-fp-input:-webkit-autofill:hover,
+.bei-fp-input:-webkit-autofill:focus,
+.bei-fp-input:-internal-autofill-selected {
+	transition: background-color 9999s ease-in-out 0s !important;
+	-webkit-text-fill-color: #334155 !important; /* slate-700 text */
+	box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+.bei-fp-btn {
+	@apply w-full bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white font-semibold py-3 rounded-xl shadow-md transition-all duration-300 flex items-center justify-center gap-2;
+}
+
+.bei-fp-btn:hover {
+	@apply scale-[1.02];
+}
+
+.bei-fp-login {
+	@apply text-sm text-slate-400 mt-5 text-center;
+}
+
+.bei-fp-login-link {
+	@apply text-sky-600 hover:text-sky-700 hover:underline font-medium;
+}
+
+.bei-fp-footer {
+	@apply text-xs text-slate-400 mt-10 text-center;
 }

@@ -99,7 +99,8 @@ if (isset($_POST['submit'])) {
                         </div>
 
                         <div class="bei-login__actions">
-                            <a href="forgot-password.php" class="bei-login__forgot">Forgot Password?</a>
+                            <a href="./forgot-password.php" class="bei-login__forgot">Forgot
+                                Password?</a>
                         </div>
 
                         <button type="submit" name="submit" class="bei-login__btn">
