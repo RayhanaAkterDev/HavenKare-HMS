@@ -37,7 +37,7 @@ if (isset($_POST['submit'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="bg-gradient-to-br from-[#e7f3ff] to-white min-h-screen">
 
 <head>
     <meta charset="UTF-8" />
@@ -58,63 +58,62 @@ if (isset($_POST['submit'])) {
     <link href="../src/output.css" rel="stylesheet">
 </head>
 
-<body class="bei-login__body">
+<body class="bg-transparent">
 
     <section class="bei-login-section">
         <div class="bei-login__container">
-
-            <!-- Left Illustration -->
-            <div class="bei-login__illustration">
-                <div class="bei-login__overlay"></div>
-                <div class="bei-login__content">
-                    <i class="fa fa-hospital fa-5x mb-6 text-white/70"></i>
-                    <h2 class="bei-login__headline">Welcome Back!</h2>
-                    <p class="bei-login__text">Access your secure health dashboard anytime, anywhere.</p>
-                </div>
-            </div>
-
-            <!-- Login Form -->
-            <div class="bei-login__form-side">
-                <div class="bei-login__header">
-                    <h2 class="bei-login__title">Patient Login</h2>
-                    <p class="bei-login__subtitle">Log in to manage your medical information</p>
+            <div class="bei-login__flex">
+                <!-- Left Illustration -->
+                <div class="bei-login__illustration">
+                    <div class="bei-login__overlay"></div>
+                    <div class="bei-login__content">
+                        <i class="fa fa-hospital fa-4x mb-4 text-white/70"></i>
+                        <h2 class="bei-login__headline">HeavenKare</h2>
+                        <p class="bei-login__text">Access your secure health dashboard anytime, anywhere.</p>
+                    </div>
                 </div>
 
-                <form method="POST" class="bei-login__form">
-                    <span class="bei-login__error">
-                        <?php
-                        echo isset($_SESSION['errmsg']) ? $_SESSION['errmsg'] : '';
-                        $_SESSION['errmsg'] = "";
-                        ?>
-                    </span>
+                <!-- Login Form -->
+                <div class="bei-login__form-side">
+                    <h2 class="bei-login__form-title">Log in to your account</h2>
 
-                    <div class="bei-login__field">
-                        <i class="fa-regular fa-envelope bei-login__icon"></i>
-                        <input type="email" name="username" placeholder="Email Address" required
-                            class="bei-login__input" />
-                    </div>
+                    <form method="POST" class="bei-login__form">
+                        <span class="bei-login__error">
+                            <?php
+                            echo isset($_SESSION['errmsg']) ? $_SESSION['errmsg'] : '';
+                            $_SESSION['errmsg'] = "";
+                            ?>
+                        </span>
 
-                    <div class="bei-login__field">
-                        <i class="fa-solid fa-lock bei-login__icon"></i>
-                        <input type="password" name="password" placeholder="Password" required
-                            class="bei-login__input" />
-                    </div>
+                        <div class="bei-login__field">
+                            <i class="fa-regular fa-envelope bei-login__icon"></i>
+                            <input type="email" name="username" placeholder="Email Address" required
+                                class="bei-login__input" />
+                        </div>
 
-                    <div class="bei-login__actions">
-                        <a href="forgot-password.php" class="bei-login__forgot">Forgot Password?</a>
-                    </div>
 
-                    <button type="submit" name="submit" class="bei-login__btn">
-                        Login <i class="fa-solid fa-arrow-right ml-2"></i>
-                    </button>
+                        <div class="bei-login__field">
+                            <i class="fa-solid fa-lock bei-login__icon"></i>
+                            <input type="password" name="password" placeholder="Password" required
+                                class="bei-login__input" />
+                        </div>
 
-                    <p class="bei-login__register">
-                        Don’t have an account?
-                        <a href="registration.php" class="bei-login__register-link">Create one</a>
-                    </p>
-                </form>
+                        <div class="bei-login__actions">
+                            <a href="forgot-password.php" class="bei-login__forgot">Forgot Password?</a>
+                        </div>
 
-                <p class="bei-login__footer">© 2025 <span>HeavenKare HSM</span>. All Rights Reserved.</p>
+                        <button type="submit" name="submit" class="bei-login__btn">
+                            Login <i class="fa-solid fa-arrow-right ml-2"></i>
+                        </button>
+
+                        <p class="bei-login__register">
+                            Don’t have an account?
+                            <a href="registration.php" class="bei-login__register-link">Create one</a>
+                        </p>
+                    </form>
+
+                    <p class="bei-login__footer">© 2025 <span>HeavenKare HSM</span>. All Rights Reserved.</p>
+                </div>
             </div>
         </div>
     </section>

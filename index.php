@@ -84,10 +84,10 @@
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="#login">Logins</a></li>
                 <li>
-                    <button class="mobile-appointment_btn">
+                    <a href="./hms/user-login.php" class="mobile-appointment_btn">
                         <span class="icon-[tabler--hand-click] text-lg"></span>
                         Book Appointment
-                    </button>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -929,13 +929,22 @@
     <!-- Navbar and mobile menu markup here... -->
     <script>
     document.addEventListener('DOMContentLoaded', () => {
-        const menuBtn = document.getElementById('menu-btn')
-        const mobileMenu = document.getElementById('mobile-menu')
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const menuItems = mobileMenu.querySelectorAll('a'); // select all links inside the menu
 
+        // Toggle menu on menu button click
         menuBtn.addEventListener('click', () => {
-            mobileMenu.classList.toggle('open') // toggle the custom open class
-        })
-    })
+            mobileMenu.classList.toggle('open');
+        });
+
+        // Close menu when any menu item is clicked
+        menuItems.forEach(item => {
+            item.addEventListener('click', () => {
+                mobileMenu.classList.remove('open');
+            });
+        });
+    });
     </script>
 
     <script src="./node_modules/flyonui/flyonui.js"></script>
