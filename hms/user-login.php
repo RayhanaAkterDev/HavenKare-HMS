@@ -29,7 +29,7 @@ if (isset($_POST['submit'])) {
         $_SESSION['login'] = $puname;
         $status = 0;
         mysqli_query($con, "INSERT INTO userlog(uid, username, userip, status) VALUES(NULL,'$puname','$uip','$status')");
-        $_SESSION['errmsg'] = "Invalid username or password";
+        $_SESSION['errmsg'] = "These credentials do not match our records.";
         header("Location: user-login.php");
         exit();
     }
@@ -37,18 +37,18 @@ if (isset($_POST['submit'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en" class="bg-gradient-to-br from-[#e7f3ff] to-white min-h-screen">
+<html lang="en" class="bg-gradient-to-br from-[#e7f3ff] via-white to-[#f9fdff] min-h-screen">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HeavenKare | Patient Login</title>
 
-    <!-- Google fonts: Poppins & Open sans -->
+    <!-- Google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet" />
 
     <!-- Font Awesome -->
@@ -62,7 +62,8 @@ if (isset($_POST['submit'])) {
 
     <section class="bei-login-section">
         <div class="bei-login__container">
-            <div class="bei-login__flex">
+            <div class="bei-login__flex hover:scale-[1.01] hover:shadow-2xl transition-all duration-300">
+
                 <!-- Left Illustration -->
                 <div class="bei-login__illustration">
                     <div class="bei-login__overlay"></div>
@@ -78,11 +79,10 @@ if (isset($_POST['submit'])) {
                     <h2 class="bei-login__form-title">Log in to your account</h2>
 
                     <form method="POST" class="bei-login__form">
-                        <span class="bei-login__error">
-                            <?php
-                            echo isset($_SESSION['errmsg']) ? $_SESSION['errmsg'] : '';
-                            $_SESSION['errmsg'] = "";
-                            ?>
+                        <!-- Error msg -->
+                        <span id="loginError" class="bei-login__error hidden">
+                            <i class="fas fa-circle-exclamation text-red-700"></i>
+                            <span id="loginErrorText"></span>
                         </span>
 
                         <div class="bei-login__field">
@@ -91,7 +91,6 @@ if (isset($_POST['submit'])) {
                                 class="bei-login__input" />
                         </div>
 
-
                         <div class="bei-login__field">
                             <i class="fa-solid fa-lock bei-login__icon"></i>
                             <input type="password" name="password" placeholder="Password" required
@@ -99,8 +98,7 @@ if (isset($_POST['submit'])) {
                         </div>
 
                         <div class="bei-login__actions">
-                            <a href="./forgot-password.php" class="bei-login__forgot">Forgot
-                                Password?</a>
+                            <a href="./forgot-password.php" class="bei-login__forgot">Forgot Password?</a>
                         </div>
 
                         <button type="submit" name="submit" class="bei-login__btn">
@@ -112,12 +110,31 @@ if (isset($_POST['submit'])) {
                             <a href="registration.php" class="bei-login__register-link">Create one</a>
                         </p>
                     </form>
-
-                    <p class="bei-login__footer">© 2025 <span>HeavenKare HSM</span>. All Rights Reserved.</p>
                 </div>
             </div>
+
+            <p class="bei-login__footer">
+                © 2025 <span>HeavenKare HSM</span>. All Rights Reserved.
+            </p>
         </div>
     </section>
+
+    <!-- JS to show error -->
+    <script>
+        function showError(msg) {
+            const errorDiv = document.getElementById('loginError');
+            const errorText = document.getElementById('loginErrorText');
+
+            errorText.textContent = msg;
+            errorDiv.classList.remove('hidden');
+            errorDiv.classList.add('show');
+        }
+
+        <?php if (!empty($_SESSION['errmsg'])): ?>
+            showError("<?php echo $_SESSION['errmsg']; ?>");
+            <?php $_SESSION['errmsg'] = ""; ?>
+        <?php endif; ?>
+    </script>
 
 </body>
 

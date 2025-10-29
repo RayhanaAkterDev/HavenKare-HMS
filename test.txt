@@ -1,0 +1,225 @@
+<?php
+session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+include("include/config.php");
+
+if (!$con) {
+    die("Database connection failed: " . mysqli_connect_error());
+}
+
+if (isset($_POST['submit'])) {
+    $puname = mysqli_real_escape_string($con, $_POST['username']);
+    $ppwd = mysqli_real_escape_string($con, md5($_POST['password']));
+
+    $ret = mysqli_query($con, "SELECT * FROM users WHERE email='$puname' AND password='$ppwd'");
+    $num = mysqli_fetch_array($ret);
+    $uip = $_SERVER['REMOTE_ADDR'];
+
+    if ($num > 0) {
+        $_SESSION['login'] = $puname;
+        $_SESSION['id'] = $num['id'];
+        $pid = $num['id'];
+        $status = 1;
+        mysqli_query($con, "INSERT INTO userlog(uid, username, userip, status) VALUES('$pid','$puname','$uip','$status')");
+        header("Location: dashboard.php");
+        exit();
+    } else {
+        $_SESSION['login'] = $puname;
+        $status = 0;
+        mysqli_query($con, "INSERT INTO userlog(uid, username, userip, status) VALUES(NULL,'$puname','$uip','$status')");
+        $_SESSION['errmsg'] = "Invalid username or password";
+        header("Location: user-login.php");
+        exit();
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en" class="bg-gradient-to-br from-[#e7f3ff] via-white to-[#f9fdff] min-h-screen">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HeavenKare | Patient Login</title>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+
+    <!-- Tailwind CSS -->
+    <link href="../src/output.css" rel="stylesheet">
+</head>
+
+<body class="bg-transparent">
+
+    <section class="bei-fp-section">
+        <div class="bei-fp-container">
+
+            <!-- Login card -->
+            <div class="bei-fp-card">
+
+                <!-- Illustration / Icon (original) -->
+                <div class="bei-fp-icon">
+                    <i class="fa fa-hospital fa-4x opacity-20"></i>
+                </div>
+
+                <!-- Heading / Subtext (original) -->
+                <h2 class="bei-fp-title">Log in to your account</h2>
+                <p class="bei-fp-subtext">
+                    Access your secure health dashboard anytime, anywhere.
+                </p>
+
+                <!-- Error message -->
+                <span class="bei-fp-error">
+                    <?php
+                    echo isset($_SESSION['errmsg']) ? $_SESSION['errmsg'] : '';
+                    $_SESSION['errmsg'] = "";
+                    ?>
+                </span>
+
+                <!-- Form -->
+                <form method="POST" class="bei-fp-form">
+                    <div class="bei-fp-field">
+                        <i class="fa-regular fa-envelope bei-fp-icon-field"></i>
+                        <input type="email" name="username" placeholder="Email Address" required class="bei-fp-input" />
+                    </div>
+
+                    <div class="bei-fp-field">
+                        <i class="fa-solid fa-lock bei-fp-icon-field"></i>
+                        <input type="password" name="password" placeholder="Password" required class="bei-fp-input" />
+                    </div>
+
+                    <div class="text-right mb-3">
+                        <a href="./forgot-password.php" class="bei-fp-login-link">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" name="submit" class="bei-fp-btn">
+                        Login <i class="fa fa-arrow-right ml-2"></i>
+                    </button>
+
+                    <p class="bei-fp-login mt-4">
+                        Don’t have an account?
+                        <a href="registration.php" class="bei-fp-login-link">Create one</a>
+                    </p>
+                </form>
+
+            </div>
+
+            <p class="bei-fp-footer mt-8">
+                © 2025 <span>HeavenKare HSM</span>. All Rights Reserved.
+            </p>
+        </div>
+    </section>
+
+</body>
+
+</html>
+
+
+.bei-fp-section {
+	@apply flex items-center justify-center min-h-screen px-4 py-10;
+}
+
+.bei-fp-container {
+	@apply w-full max-w-md mx-auto;
+}
+
+.bei-fp-card {
+	@apply relative backdrop-blur-md bg-white/80 shadow-xl rounded-3xl px-8 py-10 flex flex-col items-center transition-all duration-300;
+}
+
+.bei-fp-card:hover {
+	@apply shadow-2xl scale-[1.01];
+}
+
+.bei-fp-icon {
+	@apply text-sky-600 text-6xl mb-5 p-6 shadow-inner;
+}
+
+.bei-fp-title {
+	@apply text-2xl font-extrabold text-slate-700 text-center mb-2;
+}
+
+.bei-fp-subtext {
+	@apply text-sm text-slate-500 text-center mb-8 max-w-sm;
+}
+
+.bei-fp-error {
+	@apply block text-center text-red-500 text-sm mb-4;
+}
+
+.bei-fp-form {
+	@apply w-full space-y-5;
+}
+
+.bei-fp-field {
+	@apply flex items-center gap-3 bg-[#f2f7fc]/30 border border-slate-200 rounded-lg px-4 py-3 transition duration-200;
+}
+
+.bei-fp-field:hover {
+	@apply border-sky-300;
+}
+
+.bei-fp-field:focus-within {
+	@apply border-sky-500 ring-1 ring-sky-300 bg-white;
+}
+
+.bei-fp-icon-field {
+	@apply text-sky-600 text-base;
+}
+
+.bei-fp-input {
+	@apply w-full text-[15px] text-slate-700 bg-transparent placeholder-slate-400 outline-none;
+}
+
+.bei-fp-input::placeholder {
+	@apply text-slate-400;
+}
+
+.bei-fp-input:-webkit-autofill,
+.bei-fp-input:-webkit-autofill:hover,
+.bei-fp-input:-webkit-autofill:focus,
+.bei-fp-input:-internal-autofill-selected {
+	transition: background-color 9999s ease-in-out 0s !important;
+	-webkit-text-fill-color: #334155 !important;
+	box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+.bei-fp-btn {
+	@apply w-full bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white font-semibold py-3 rounded-xl shadow-md transition-all duration-300 flex items-center justify-center gap-2;
+}
+
+.bei-fp-btn:hover {
+	@apply scale-[1.02];
+}
+
+.bei-fp-login {
+	@apply text-sm text-slate-600 mt-4 text-center;
+}
+
+.bei-fp-login-link {
+	@apply text-sky-600 hover:text-sky-700 hover:underline font-medium;
+}
+
+.bei-fp-footer {
+	@apply text-xs text-slate-400 mt-6 text-center;
+}
+
+
+.bei-login__error {
+    @apply hidden relative items-center gap-3 bg-red-100/30 border border-red-200 rounded-lg p-4 w-full text-sm text-red-600 mt-2 mb-4;
+    overflow: hidden;
+}
+
+/* progress bar at bottom */
+.bei-login__progress {
+    @apply absolute bottom-0 left-0 h-1 bg-red-500;
+    width: 0%;
+    transition: width linear;
+}
+
+/* visible error */
+.bei-login__error.show {
+    @apply flex;
+}
