@@ -12,6 +12,9 @@
     --color-red-500: oklch(63.7% 0.237 25.331);
     --color-red-600: oklch(57.7% 0.245 27.325);
     --color-red-700: oklch(50.5% 0.213 27.518);
+    --color-green-100: oklch(96.2% 0.044 156.743);
+    --color-green-200: oklch(92.5% 0.084 155.995);
+    --color-green-700: oklch(52.7% 0.154 150.069);
     --color-teal-400: oklch(77.7% 0.152 181.912);
     --color-sky-100: oklch(95.1% 0.026 236.824);
     --color-sky-300: oklch(82.8% 0.111 230.318);
@@ -5057,6 +5060,9 @@
   .border-gray-200 {
     border-color: var(--color-gray-200);
   }
+  .border-green-200 {
+    border-color: var(--color-green-200);
+  }
   .border-red-200 {
     border-color: var(--color-red-200);
   }
@@ -5113,6 +5119,14 @@
     @supports (color: color-mix(in lab, red, red)) {
       & {
         background-color: color-mix(in oklab, var(--color-gray-700) 80%, transparent);
+      }
+    }
+  }
+  .bg-green-100\/30 {
+    background-color: color-mix(in srgb, oklch(96.2% 0.044 156.743) 30%, transparent);
+    @supports (color: color-mix(in lab, red, red)) {
+      & {
+        background-color: color-mix(in oklab, var(--color-green-100) 30%, transparent);
       }
     }
   }
@@ -5466,6 +5480,9 @@
   .text-gray-800 {
     color: var(--color-gray-800);
   }
+  .text-green-700 {
+    color: var(--color-green-700);
+  }
   .text-primary {
     color: var(--color-primary);
   }
@@ -5633,6 +5650,10 @@
   .ease-in-out {
     --tw-ease: var(--ease-in-out);
     transition-timing-function: var(--ease-in-out);
+  }
+  .ease-out {
+    --tw-ease: var(--ease-out);
+    transition-timing-function: var(--ease-out);
   }
   .btn-soft {
     @layer daisyui.modifier {
@@ -9215,6 +9236,31 @@ html {
   font-size: var(--text-xs);
   line-height: var(--tw-leading, var(--text-xs--line-height));
   color: var(--color-slate-400);
+}
+.bei-login__success {
+  margin-bottom: calc(var(--spacing) * 4);
+  display: none;
+  width: 100%;
+  align-items: center;
+  gap: calc(var(--spacing) * 3);
+  border-radius: var(--radius-lg);
+  border-style: var(--tw-border-style);
+  border-width: 1px;
+  border-color: var(--color-green-200);
+  background-color: color-mix(in srgb, oklch(96.2% 0.044 156.743) 30%, transparent);
+  @supports (color: color-mix(in lab, red, red)) {
+    & {
+      background-color: color-mix(in oklab, var(--color-green-100) 30%, transparent);
+    }
+  }
+  padding: calc(var(--spacing) * 4);
+  font-size: var(--text-sm);
+  line-height: var(--tw-leading, var(--text-sm--line-height));
+  color: var(--color-green-700);
+}
+.bei-login__success.show {
+  display: flex;
+  animation: softFadeIn 0.25s ease-out forwards;
 }
 @layer base {
   :where(:root),:root:has(input.theme-controller[value=light]:checked),[data-theme=light] {

@@ -121,19 +121,28 @@ if (isset($_POST['submit'])) {
 
     <!-- JS to show error -->
     <script>
-        function showError(msg) {
-            const errorDiv = document.getElementById('loginError');
-            const errorText = document.getElementById('loginErrorText');
+    function showError(msg) {
+        const errorDiv = document.getElementById('loginError');
+        const errorText = document.getElementById('loginErrorText');
 
-            errorText.textContent = msg;
-            errorDiv.classList.remove('hidden');
-            errorDiv.classList.add('show');
+        errorText.textContent = msg;
+        errorDiv.classList.remove('hidden');
+        errorDiv.classList.add('show');
+    }
+
+    <?php if (!empty($_SESSION['errmsg'])): ?>
+    showError("<?php echo $_SESSION['errmsg']; ?>");
+    <?php $_SESSION['errmsg'] = ""; ?>
+    <?php endif; ?>
+    </script>
+
+    <!-- Force page reload on back button -->
+    <script>
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            window.location.reload();
         }
-
-        <?php if (!empty($_SESSION['errmsg'])): ?>
-            showError("<?php echo $_SESSION['errmsg']; ?>");
-            <?php $_SESSION['errmsg'] = ""; ?>
-        <?php endif; ?>
+    });
     </script>
 
 </body>

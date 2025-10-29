@@ -1,19 +1,38 @@
 <?php
 session_start();
-error_reporting(0);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include("include/config.php");
+
 if (isset($_POST['submit'])) {
-    $name = $_POST['fullname'];
-    $email = $_POST['email'];
-    $query = mysqli_query($con, "select id from users where fullName='$name' and email='$email'");
+    $name = trim($_POST['fullname']);
+    $email = trim($_POST['email']);
+
+    // Basic validation
+    if (empty($name) || empty($email)) {
+        $_SESSION['errmsg'] = "Please provide your full name and registered email address.";
+        header("Location: forgot-password.php");
+        exit();
+    }
+
+    // Sanitize inputs
+    $name = mysqli_real_escape_string($con, $name);
+    $email = mysqli_real_escape_string($con, $email);
+
+    // Check if user exists
+    $query = mysqli_query($con, "SELECT id FROM users WHERE fullName='$name' AND email='$email'");
     $row = mysqli_num_rows($query);
+
     if ($row > 0) {
         $_SESSION['name'] = $name;
         $_SESSION['email'] = $email;
-        header('location:reset-password.php');
+        header("Location: reset-password.php");
+        exit();
     } else {
-        echo "<script>alert('Invalid details. Please try with valid details');</script>";
-        echo "<script>window.location.href ='forgot-password.php'</script>";
+        $_SESSION['errmsg'] = "These credentials do not match our records.";
+        header("Location: forgot-password.php");
+        exit();
     }
 }
 ?>
@@ -26,17 +45,17 @@ if (isset($_POST['submit'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HeavenKare | Password Recovery</title>
 
-    <!-- Google fonts: Poppins & Open sans -->
+    <!-- Google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet" />
 
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-    <!-- Tailwind -->
+    <!-- Tailwind CSS -->
     <link href="../src/output.css" rel="stylesheet">
 </head>
 
@@ -44,7 +63,6 @@ if (isset($_POST['submit'])) {
 
     <section class="bei-fp-section">
         <div class="bei-fp-container">
-
             <!-- Glass card -->
             <div class="bei-fp-card">
 
@@ -59,29 +77,27 @@ if (isset($_POST['submit'])) {
                     Enter your full name and registered email below to receive a reset link.
                 </p>
 
-                <!-- Error message -->
-                <span class="bei-fp-error">
-                    <?php
-                    echo isset($_SESSION['errmsg']) ? $_SESSION['errmsg'] : '';
-                    $_SESSION['errmsg'] = "";
-                    ?>
+                <!-- Error message (same style as login) -->
+                <span id="fpError" class="bei-login__error hidden">
+                    <i class="fas fa-circle-exclamation text-red-700"></i>
+                    <span id="fpErrorText"></span>
                 </span>
 
                 <!-- Form -->
                 <form method="post" class="bei-fp-form">
                     <div class="bei-fp-field">
                         <i class="fa-solid fa-user bei-fp-icon-field"></i>
-                        <input type="text" name="fullname" placeholder="Full Name" required class="bei-fp-input">
+                        <input type="text" name="fullname" placeholder="Full Name" class="bei-fp-input">
                     </div>
 
                     <div class="bei-fp-field">
                         <i class="fa-regular fa-envelope bei-fp-icon-field"></i>
-                        <input type="email" name="email" placeholder="Email Address" required class="bei-fp-input">
+                        <input type="email" name="email" placeholder="Email Address" class="bei-fp-input">
                     </div>
 
-                    <a href="./reset-password.php" type="submit" name="submit" class="bei-fp-btn">
+                    <button type="submit" name="submit" class="bei-fp-btn">
                         Send Reset Link <i class="fa fa-arrow-right ml-2"></i>
-                    </a>
+                    </button>
 
                     <p class="bei-fp-login">
                         Remember your password?
@@ -96,7 +112,38 @@ if (isset($_POST['submit'])) {
         </div>
     </section>
 
+    <!-- Error Message Script -->
+    <script>
+        function showError(msg) {
+            const errorDiv = document.getElementById('fpError');
+            const errorText = document.getElementById('fpErrorText');
+            errorText.textContent = msg;
+            errorDiv.classList.remove('hidden');
+            errorDiv.classList.add('show');
+        }
 
+        <?php if (!empty($_SESSION['errmsg'])): ?>
+            showError("<?php echo $_SESSION['errmsg']; ?>");
+            <?php $_SESSION['errmsg'] = ""; ?>
+        <?php endif; ?>
+    </script>
+
+    <script>
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
+
+    <!-- Force page reload on back button -->
+    <script>
+        window.addEventListener('pageshow', function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        });
+    </script>
 
 </body>
 
