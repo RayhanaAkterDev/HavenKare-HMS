@@ -809,62 +809,144 @@ html {
 
 /* =============================================== */
 
-/* ===== backend start here ===== */
+/* ========================================= */
+/* 💠 COMMON BACKEND AUTH COMPONENTS */
+/* ========================================= */
 
-.bei-login-section {
-	@apply flex items-center justify-center min-h-screen px-4 py-10;
+/* ===== Layout ===== */
+.php-bg {
+	@apply bg-gradient-to-br from-[#e7f3ff] via-white to-[#f9fdff] min-h-screen;
+}
+.php-section {
+	@apply flex flex-col justify-center items-center py-10;
+}
+.php-container {
+	@apply w-11/12 max-w-md mx-auto flex flex-col justify-center;
 }
 
-.bei-login__container {
-	@apply w-full max-w-md mx-auto;
+/* page heading */
+.php-page-heading {
+	@apply flex flex-col justify-center items-center gap-2 mb-6 text-center mt-10;
 }
 
-.bei-login__flex {
-	@apply w-full flex flex-col shadow-xl rounded-3xl overflow-hidden;
+/* ===== Card / Panel ===== */
+.php-card {
+	@apply shadow-xl rounded-3xl flex flex-col items-center hover:scale-[1.01] hover:shadow-2xl transition-all duration-300 border-t border-gray-200;
 }
 
-/* Left Illustration */
-.bei-login__illustration {
-	@apply relative bg-gradient-to-br from-sky-600 to-sky-700 flex flex-col items-center justify-center text-center p-10 rounded-t-3xl;
+/* ===== Illustration Header (used only in login page) ===== */
+.php-illustration {
+	@apply relative bg-gradient-to-br from-sky-600 to-sky-700 flex flex-col items-center justify-center text-center p-10 rounded-t-3xl w-full;
 }
-
-.bei-login__overlay {
+.php-overlay {
 	@apply absolute inset-0 bg-black/20 rounded-t-3xl;
 }
-
-.bei-login__content {
+.php-illustration-content {
 	@apply relative z-10 text-white;
 }
-
-.bei-login__headline {
-	@apply text-2xl font-semibold mb-1 tracking-wide;
+.php-headline {
+	@apply text-2xl lg:text-3xl font-extrabold mb-1 tracking-wide;
+}
+.php-text {
+	@apply text-white/80 max-w-xs mx-auto;
 }
 
-.bei-login__text {
-	@apply text-sm text-white/80 max-w-xs mx-auto;
+/* ===== Form ===== */
+.php-form-wrapper {
+	@apply w-full p-8;
+}
+.php-form {
+	@apply space-y-5;
 }
 
-/* Form section */
-.bei-login__form-side {
-	@apply backdrop-blur-md bg-white/80 p-8 flex flex-col justify-center rounded-b-3xl transition-all duration-300;
+/* Form heading */
+.form-heading {
+	@apply flex flex-col justify-center items-center text-center gap-2 mb-8;
+}
+.php-form-title {
+	@apply text-lg font-extrabold text-sky-800/80 text-center;
+}
+.php-form-subtitle {
+	@apply text-xs text-sky-800/50 font-medium max-w-xs;
 }
 
-.bei-login__form-title {
-	@apply text-base font-bold text-slate-700 text-center mb-5;
+/* ===== Input Field ===== */
+.php-field {
+	@apply flex items-center gap-3 bg-[#f2f7fc]/30 border border-slate-200 rounded-lg px-4 py-3 transition duration-200;
+}
+.php-field:hover {
+	@apply border-sky-300;
+}
+.php-field:focus-within {
+	@apply border-sky-500 ring-1 ring-sky-300 bg-white;
+}
+.php-icon {
+	@apply text-sky-600 text-base;
+}
+.php-input {
+	@apply w-full text-[15px] text-slate-700 bg-transparent placeholder-slate-400 outline-none;
+}
+.php-input::placeholder {
+	@apply text-slate-300;
 }
 
-.bei-login__form {
-	@apply space-y-4;
+/* Gender Radio Buttons */
+.php-radio {
+	@apply appearance-none w-4 h-4 border-2 border-gray-400 rounded-full 
+	cursor-pointer transition-all duration-200 outline-none
+	focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 checked:border-sky-600 checked:bg-sky-600;
 }
 
-/* error msg */
-.bei-login__error {
-	@apply hidden items-center gap-3 bg-red-100/30 border border-red-200 rounded-lg p-4 w-full text-sm text-red-600 mb-4;
+.php-field label {
+	@apply flex items-center gap-2 text-gray-400 font-medium cursor-pointer;
 }
 
-.bei-login__error.show {
-	@apply flex;
+/* Autofill fix */
+.php-input:-webkit-autofill,
+.php-input:-webkit-autofill:hover,
+.php-input:-webkit-autofill:focus,
+.php-input:-internal-autofill-selected {
+	transition: background-color 9999s ease-in-out 0s !important;
+	-webkit-text-fill-color: #334155 !important;
+	box-shadow: 0 0 0px 1000px white inset !important;
+}
+
+/* ===== Buttons ===== */
+.php-btn {
+	@apply w-full bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white font-semibold py-3 rounded-xl shadow-md transition-all duration-300 flex items-center justify-center gap-0;
+}
+.php-btn:hover {
+	@apply scale-[1.02];
+}
+
+/* ===== Links (bottom navigation like “Register” or “Login”) ===== */
+.php-link-text {
+	@apply text-sm text-slate-400 mt-5 text-center;
+}
+.php-link {
+	@apply text-sky-600 hover:text-sky-700 hover:underline font-medium;
+}
+
+/* ===== Footer ===== */
+.php-footer {
+	@apply text-xs text-slate-400 mt-10 text-center;
+}
+
+/* ===== Alert Messages ===== */
+.php-error,
+.php-success {
+	@apply hidden items-center gap-3 rounded-lg p-4 w-full text-sm mb-4 border;
 	animation: softFadeIn 0.25s ease-out forwards;
+}
+.php-error {
+	@apply bg-red-100/30 border-red-200 text-red-600;
+}
+.php-success {
+	@apply bg-green-100/30 border-green-200 text-green-700;
+}
+.php-error.show,
+.php-success.show {
+	@apply flex;
 }
 
 @keyframes softFadeIn {
@@ -878,246 +960,8 @@ html {
 	}
 }
 
-/* Fields (mirroring forget password design) */
-.bei-login__field {
-	@apply flex items-center gap-3 bg-[#f2f7fc]/30 border border-slate-200 rounded-lg px-4 py-3 transition duration-200;
-}
-.bei-login__field:hover {
-	@apply border-sky-300;
-}
-.bei-login__field:focus-within {
-	@apply border-sky-500 ring-1 ring-sky-300 bg-white;
-}
-.bei-login__icon {
-	@apply text-sky-600 text-base;
-}
-.bei-login__input {
-	@apply w-full text-[15px] text-slate-700 bg-transparent placeholder-slate-400 outline-none;
-}
-.bei-login__input::placeholder {
-	@apply text-slate-300;
-}
-
-/* Forgot Password link */
-.bei-login__actions {
-	@apply text-right;
-}
-.bei-login__forgot {
-	@apply text-sm text-sky-500 hover:text-sky-600 hover:underline font-medium transition;
-}
-
-/* Login Button (same as reset link button style) */
-.bei-login__btn {
-	@apply w-full bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white font-semibold py-3 rounded-xl shadow-md transition-all duration-300 flex items-center justify-center gap-2;
-}
-.bei-login__btn:hover {
-	@apply scale-[1.02];
-}
-
-/* Register section */
-.bei-login__register {
-	@apply text-sm text-slate-400 mt-5 text-center;
-}
-.bei-login__register-link {
-	@apply text-sky-600 hover:text-sky-700 hover:underline font-medium;
-}
-
-/* Footer */
-.bei-login__footer {
-	@apply text-xs text-slate-400 mt-10 text-center;
-}
-
-/* =========================== */
-
-/* forget password page */
-.bei-fp-section {
-	@apply flex items-center justify-center min-h-screen px-4 py-10;
-}
-
-.bei-fp-container {
-	@apply w-full max-w-md mx-auto;
-}
-
-.bei-fp-card {
-	@apply relative backdrop-blur-md bg-white/80 shadow-xl rounded-3xl px-8 py-10 flex flex-col items-center transition-all duration-300;
-}
-
-.bei-fp-card:hover {
-	@apply shadow-2xl scale-[1.01];
-}
-
-.bei-fp-icon {
-	@apply text-sky-600 text-6xl mb-5 bg-sky-100 rounded-full p-6 shadow-inner;
-}
-
-.bei-fp-title {
-	@apply text-lg lg:text-2xl font-bold text-slate-700 text-center mb-2;
-}
-
-.bei-fp-subtext {
-	@apply text-sm text-slate-500 text-center mb-8 max-w-sm;
-}
-
-.bei-fp-error {
-	@apply block text-center text-red-500 text-sm mb-4;
-}
-
-.bei-fp-form {
-	@apply w-full space-y-5;
-}
-
-.bei-fp-field {
-	@apply flex items-center gap-3 bg-[#f2f7fc]/30 border border-slate-200 rounded-lg px-4 py-3 transition duration-200;
-}
-
-.bei-fp-field:hover {
-	@apply border-sky-300;
-}
-
-.bei-fp-field:focus-within {
-	@apply border-sky-500 ring-1 ring-sky-300 bg-white;
-}
-
-.bei-fp-icon-field {
-	@apply text-sky-600 text-base;
-}
-
-.bei-fp-input {
-	@apply w-full text-[15px] text-slate-700 bg-transparent placeholder-slate-400 outline-none;
-}
-
-.bei-fp-input::placeholder {
-	@apply text-slate-300;
-}
-
-.bei-fp-input:-webkit-autofill,
-.bei-fp-input:-webkit-autofill:hover,
-.bei-fp-input:-webkit-autofill:focus,
-.bei-fp-input:-internal-autofill-selected {
-	transition: background-color 9999s ease-in-out 0s !important;
-	-webkit-text-fill-color: #334155 !important; /* slate-700 text */
-	box-shadow: 0 0 0px 1000px white inset !important;
-}
-
-.bei-fp-btn {
-	@apply w-full bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white font-semibold py-3 rounded-xl shadow-md transition-all duration-300 flex items-center justify-center gap-2;
-}
-
-.bei-fp-btn:hover {
-	@apply scale-[1.02];
-}
-
-.bei-fp-login {
-	@apply text-sm text-slate-400 mt-5 text-center;
-}
-
-.bei-fp-login-link {
-	@apply text-sky-600 hover:text-sky-700 hover:underline font-medium;
-}
-
-.bei-fp-footer {
-	@apply text-xs text-slate-400 mt-10 text-center;
-}
-
-/* =========================== */
-
-/* reset password page */
-
-.bei-rp-section {
-	@apply flex items-center justify-center min-h-screen px-4 py-10;
-}
-
-.bei-rp-container {
-	@apply w-full max-w-md mx-auto;
-}
-
-.bei-rp-card {
-	@apply relative backdrop-blur-md bg-white/80 shadow-xl rounded-3xl px-8 py-10 flex flex-col items-center transition-all duration-300;
-}
-
-.bei-rp-card:hover {
-	@apply shadow-2xl scale-[1.01];
-}
-
-.bei-rp-icon {
-	@apply text-sky-600 text-6xl mb-5 bg-sky-100 rounded-full p-6 shadow-inner;
-}
-
-.bei-rp-title {
-	@apply text-2xl font-extrabold text-slate-700 text-center mb-2;
-}
-
-.bei-rp-subtext {
-	@apply text-sm text-slate-500 text-center mb-8 max-w-sm;
-}
-
-.bei-rp-error {
-	@apply block text-center text-red-500 text-sm mb-4;
-}
-
-.bei-rp-form {
-	@apply w-full space-y-5;
-}
-
-.bei-rp-field {
-	@apply flex items-center gap-3 bg-[#f2f7fc]/30 border border-slate-200 rounded-lg px-4 py-3 transition duration-200;
-}
-
-.bei-rp-field:hover {
-	@apply border-sky-300;
-}
-
-.bei-rp-field:focus-within {
-	@apply border-sky-500 ring-1 ring-sky-300 bg-white;
-}
-
-.bei-rp-icon-field {
-	@apply text-sky-600 text-base;
-}
-
-.bei-rp-input {
-	@apply w-full text-[15px] text-slate-700 bg-transparent placeholder-slate-400 outline-none;
-}
-
-.bei-rp-input::placeholder {
-	@apply text-slate-400;
-}
-
-.bei-rp-input:-webkit-autofill,
-.bei-rp-input:-webkit-autofill:hover,
-.bei-rp-input:-webkit-autofill:focus,
-.bei-rp-input:-internal-autofill-selected {
-	transition: background-color 9999s ease-in-out 0s !important;
-	-webkit-text-fill-color: #334155 !important;
-	box-shadow: 0 0 0px 1000px white inset !important;
-}
-
-.bei-rp-btn {
-	@apply w-full bg-gradient-to-r from-sky-600 to-sky-700 hover:from-sky-700 hover:to-sky-800 text-white font-semibold py-3 rounded-xl shadow-md transition-all duration-300 flex items-center justify-center gap-2;
-}
-
-.bei-rp-btn:hover {
-	@apply scale-[1.02];
-}
-
-.bei-rp-login {
-	@apply text-sm text-slate-600 mt-5 text-center;
-}
-
-.bei-rp-login-link {
-	@apply text-sky-600 hover:text-sky-700 hover:underline font-medium;
-}
-
-.bei-rp-footer {
-	@apply text-xs text-slate-400 mt-10 text-center;
-}
-
-/* password rest succes msg  */
-.bei-login__success {
-	@apply hidden items-center gap-3 bg-green-100/30 border border-green-200 rounded-lg p-4 w-full text-sm text-green-700 mb-4;
-}
-
-.bei-login__success.show {
-	@apply flex;
-	animation: softFadeIn 0.25s ease-out forwards;
+/* Register Banner */
+.php-register-banner {
+	@apply flex w-full lg:w-1/2 p-12 
+	bg-gradient-to-br from-sky-600 to-sky-700 flex-col items-center justify-center text-center text-white;
 }

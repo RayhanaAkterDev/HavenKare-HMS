@@ -8,26 +8,28 @@ if (isset($_POST['change'])) {
     $password = trim($_POST['password']);
     $confirm = trim($_POST['password_again']);
 
-    // Password validation
+    // Basic validation
     if (empty($password) || empty($confirm)) {
         $_SESSION['errmsg'] = "Password fields cannot be empty.";
         header("Location: reset-password.php");
         exit();
-    } elseif ($password !== $confirm) {
+    }
+
+    if ($password !== $confirm) {
         $_SESSION['errmsg'] = "Passwords do not match.";
-        header("Location: reset-password.php");
-        exit();
-    } elseif (strlen($password) < 8) {
-        $_SESSION['errmsg'] = "Password must be at least 8 characters long.";
-        header("Location: reset-password.php");
-        exit();
-    } elseif (!preg_match('/[A-Z]/', $password) || !preg_match('/[0-9]/', $password)) {
-        $_SESSION['errmsg'] = "Password must contain at least one uppercase letter and one number.";
         header("Location: reset-password.php");
         exit();
     }
 
-    // Update password
+    // Password complexity validation
+    $password_pattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/";
+    if (!preg_match($password_pattern, $password)) {
+        $_SESSION['errmsg'] = "Password must be at least 8 characters and include uppercase, lowercase, number, and special character.";
+        header("Location: reset-password.php");
+        exit();
+    }
+
+    // Update password in database
     $hashed = md5($password);
     $query = mysqli_query($con, "UPDATE users SET password='$hashed' WHERE fullName='$name' AND email='$email'");
 
@@ -44,98 +46,84 @@ if (isset($_POST['change'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en" class="bg-gradient-to-br from-[#e7f3ff] via-white to-[#f9fdff] min-h-screen">
+<html lang="en" class="php-bg">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HeavenKare | Reset Password</title>
 
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-    <!-- Tailwind -->
+    <!-- Tailwind CSS -->
     <link href="../src/output.css" rel="stylesheet">
-
-    <style>
-    /* Success message style */
-    .bei-login__success {
-        @apply hidden items-center gap-3 bg-green-100/30 border border-green-200 rounded-lg p-4 w-full text-sm text-green-700 mb-4;
-    }
-
-    .bei-login__success.show {
-        @apply flex;
-        animation: softFadeIn 0.25s ease-out forwards;
-    }
-
-    @keyframes softFadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(-2px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
-    </style>
 </head>
 
 <body class="bg-transparent">
 
-    <section class="bei-rp-section">
-        <div class="bei-rp-container">
+    <section class="php-section">
+        <div class="php-container">
+
+            <!-- Page heading -->
+            <div class="php-page-heading">
+                <h2 class="php-headline !text-sky-800">Reset Password</h2>
+                <p class="php-text !text-sky-800/80">Create a new secure password to access your HeavenKare account.</p>
+            </div>
 
             <!-- Card -->
-            <div class="bei-rp-card">
+            <div class="php-card">
+                <div class="php-form-wrapper">
+                    <!-- Form heading -->
+                    <div class="form-heading">
+                        <i class="fa fa-lock fa-4x mb-2 text-sky-800/20"></i>
+                        <h2 class="php-form-title">Reset Your Password</h2>
+                        <p class="php-form-subtitle">Please set your new password to access your account securely.</p>
+                    </div>
 
-                <!-- Icon -->
-                <div class="bei-rp-icon">
-                    <i class="fa fa-lock"></i>
+                    <!-- Error message -->
+                    <span id="rpError" class="php-error hidden">
+                        <i class="fas fa-circle-exclamation text-red-700"></i>
+                        <span id="rpErrorText"></span>
+                    </span>
+
+                    <!-- Success message -->
+                    <span id="rpSuccess" class="php-success hidden">
+                        <i class="fas fa-circle-check text-green-700"></i>
+                        <span id="rpSuccessText"></span>
+                    </span>
+
+                    <!-- Form -->
+                    <form name="passwordreset" method="post" class="php-form" novalidate>
+                        <div class="php-field">
+                            <i class="fa fa-lock php-icon"></i>
+                            <input type="password" id="password" name="password" placeholder="New Password"
+                                class="php-input" required>
+                        </div>
+
+                        <div class="php-field">
+                            <i class="fa fa-lock php-icon"></i>
+                            <input type="password" id="password_again" name="password_again"
+                                placeholder="Confirm Password" class="php-input" required>
+                        </div>
+
+                        <button type="submit" name="change" class="php-btn">
+                            Change Password <i class="fa fa-arrow-right ml-2"></i>
+                        </button>
+
+                        <p class="php-link-text">
+                            Already have an account?
+                            <a href="user-login.php" class="php-link">Log in</a>
+                        </p>
+                    </form>
                 </div>
-
-                <!-- Title -->
-                <h2 class="bei-rp-title">Reset Your Password</h2>
-                <p class="bei-rp-subtext">
-                    Please set your new password to access your account securely.
-                </p>
-
-                <!-- Error message -->
-                <span id="rpError" class="bei-login__error hidden">
-                    <i class="fas fa-circle-exclamation text-red-700"></i>
-                    <span id="rpErrorText"></span>
-                </span>
-
-                <!-- Success message -->
-                <span id="rpSuccess" class="bei-login__success hidden">
-                    <i class="fas fa-circle-check text-green-700"></i>
-                    <span id="rpSuccessText"></span>
-                </span>
-
-                <!-- Form -->
-                <form name="passwordreset" method="post" class="bei-rp-form" novalidate>
-                    <div class="bei-rp-field">
-                        <i class="fa fa-lock bei-rp-icon-field"></i>
-                        <input type="password" id="password" name="password" placeholder="New Password"
-                            class="bei-rp-input" required>
-                    </div>
-
-                    <div class="bei-rp-field">
-                        <i class="fa fa-lock bei-rp-icon-field"></i>
-                        <input type="password" id="password_again" name="password_again" placeholder="Confirm Password"
-                            class="bei-rp-input" required>
-                    </div>
-
-                    <button type="submit" name="change" class="bei-rp-btn">
-                        Change Password <i class="fa fa-arrow-right ml-2"></i>
-                    </button>
-
-                    <p class="bei-rp-login">
-                        Already have an account?
-                        <a href="user-login.php" class="bei-rp-login-link">Log in</a>
-                    </p>
-                </form>
             </div>
 
             <p class="bei-rp-footer">
@@ -160,9 +148,10 @@ if (isset($_POST['change'])) {
         successText.textContent = msg;
         successDiv.classList.remove('hidden');
         successDiv.classList.add('show');
+        // Redirect to login after 3 seconds
         setTimeout(() => {
             window.location.href = "user-login.php";
-        }, 3000);
+        }, 1500);
     }
 
     <?php if (!empty($_SESSION['errmsg'])): ?>

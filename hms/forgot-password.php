@@ -38,7 +38,7 @@ if (isset($_POST['submit'])) {
 ?>
 
 <!DOCTYPE html>
-<html lang="en" class="bg-gradient-to-br from-[#e7f3ff] via-white to-[#f9fdff] min-h-screen">
+<html lang="en" class="php-bg">
 
 <head>
     <meta charset="UTF-8">
@@ -61,52 +61,60 @@ if (isset($_POST['submit'])) {
 
 <body class="bg-transparent">
 
-    <section class="bei-fp-section">
-        <div class="bei-fp-container">
-            <!-- Glass card -->
-            <div class="bei-fp-card">
+    <section class="php-section">
+        <div class="php-container">
 
-                <!-- Icon -->
-                <div class="bei-fp-icon">
-                    <i class="fa fa-unlock-alt"></i>
-                </div>
-
-                <!-- Title -->
-                <h2 class="bei-fp-title">Forgot Your Password?</h2>
-                <p class="bei-fp-subtext">
-                    Enter your full name and registered email below to receive a reset link.
+            <!-- page heading -->
+            <div class="php-page-heading">
+                <h2 class="php-headline !text-sky-800">Password Recovery</h2>
+                <p class="php-text !text-sky-800/80">Reset your HeavenKare account password securely and regain access.
                 </p>
-
-                <!-- Error message (same style as login) -->
-                <span id="fpError" class="bei-login__error hidden">
-                    <i class="fas fa-circle-exclamation text-red-700"></i>
-                    <span id="fpErrorText"></span>
-                </span>
-
-                <!-- Form -->
-                <form method="post" class="bei-fp-form">
-                    <div class="bei-fp-field">
-                        <i class="fa-solid fa-user bei-fp-icon-field"></i>
-                        <input type="text" name="fullname" placeholder="Full Name" class="bei-fp-input">
-                    </div>
-
-                    <div class="bei-fp-field">
-                        <i class="fa-regular fa-envelope bei-fp-icon-field"></i>
-                        <input type="email" name="email" placeholder="Email Address" class="bei-fp-input">
-                    </div>
-
-                    <button type="submit" name="submit" class="bei-fp-btn">
-                        Send Reset Link <i class="fa fa-arrow-right ml-2"></i>
-                    </button>
-
-                    <p class="bei-fp-login">
-                        Remember your password?
-                        <a href="user-login.php" class="bei-fp-login-link">Log in</a>
-                    </p>
-                </form>
             </div>
 
-            <p class="bei-fp-footer">
+            <!-- Glass card -->
+            <div class="php-card">
+
+                <div class="php-form-wrapper">
+                    <!-- Form heading -->
+                    <div class="form-heading">
+                        <i class="fa fa-lock fa-4x mb-2 text-sky-800/20"></i>
+                        <h2 class="php-form-title">Forgot Your Password?</h2>
+                        <p class="php-form-subtitle">
+                            Enter your full name and registered email below to receive a reset link.
+                        </p>
+                    </div>
+
+                    <!-- Error message (same style as login) -->
+                    <span id="fpError" class="php-error hidden">
+                        <i class="fas fa-circle-exclamation text-red-700"></i>
+                        <span id="fpErrorText"></span>
+                    </span>
+
+                    <!-- Form -->
+                    <form method="post" class="php-form">
+                        <div class="php-field">
+                            <i class="fa-solid fa-user php-icon"></i>
+                            <input type="text" name="fullname" placeholder="Full Name" class="php-input">
+                        </div>
+
+                        <div class="php-field">
+                            <i class="fa-regular fa-envelope php-icon"></i>
+                            <input type="email" name="email" placeholder="Email Address" class="php-input">
+                        </div>
+
+                        <button type="submit" name="submit" class="php-btn">
+                            Send Reset Link <i class="fa fa-arrow-right ml-2"></i>
+                        </button>
+
+                        <p class="php-link-text">
+                            Remember your password?
+                            <a href="user-login.php" class="php-link">Log in</a>
+                        </p>
+                    </form>
+                </div>
+            </div>
+
+            <p class="php-footer">
                 © 2025 <span>HeavenKare HSM</span>. All Rights Reserved.
             </p>
         </div>
@@ -114,35 +122,35 @@ if (isset($_POST['submit'])) {
 
     <!-- Error Message Script -->
     <script>
-        function showError(msg) {
-            const errorDiv = document.getElementById('fpError');
-            const errorText = document.getElementById('fpErrorText');
-            errorText.textContent = msg;
-            errorDiv.classList.remove('hidden');
-            errorDiv.classList.add('show');
-        }
+    function showError(msg) {
+        const errorDiv = document.getElementById('fpError');
+        const errorText = document.getElementById('fpErrorText');
+        errorText.textContent = msg;
+        errorDiv.classList.remove('hidden');
+        errorDiv.classList.add('show');
+    }
 
-        <?php if (!empty($_SESSION['errmsg'])): ?>
-            showError("<?php echo $_SESSION['errmsg']; ?>");
-            <?php $_SESSION['errmsg'] = ""; ?>
-        <?php endif; ?>
+    <?php if (!empty($_SESSION['errmsg'])): ?>
+    showError("<?php echo $_SESSION['errmsg']; ?>");
+    <?php $_SESSION['errmsg'] = ""; ?>
+    <?php endif; ?>
     </script>
 
     <script>
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted) {
-                window.location.reload();
-            }
-        });
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
     </script>
 
     <!-- Force page reload on back button -->
     <script>
-        window.addEventListener('pageshow', function(event) {
-            if (event.persisted) {
-                window.location.reload();
-            }
-        });
+    window.addEventListener('pageshow', function(event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
     </script>
 
 </body>

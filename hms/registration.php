@@ -1,202 +1,224 @@
 <?php
+session_start();
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 include_once('include/config.php');
+
 if (isset($_POST['submit'])) {
-    $fname = $_POST['full_name'];
-    $address = $_POST['address'];
-    $city = $_POST['city'];
-    $gender = $_POST['gender'];
-    $email = $_POST['email'];
-    $password = md5($_POST['password']);
-    $query = mysqli_query($con, "insert into users(fullname,address,city,gender,email,password) values('$fname','$address','$city','$gender','$email','$password')");
+    $fname = trim($_POST['full_name']);
+    $address = trim($_POST['address']);
+    $city = trim($_POST['city']);
+    $gender = isset($_POST['gender']) ? $_POST['gender'] : '';
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
+    $confirm_password = trim($_POST['password_again']);
+
+    // Basic validation
+    if (empty($fname) || empty($address) || empty($city) || empty($gender) || empty($email) || empty($password) || empty($confirm_password)) {
+        $_SESSION['errmsg'] = "All fields are required.";
+        header("Location: registration.php");
+        exit();
+    }
+
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $_SESSION['errmsg'] = "Please enter a valid email address.";
+        header("Location: registration.php");
+        exit();
+    }
+
+    if ($password !== $confirm_password) {
+        $_SESSION['errmsg'] = "Password and Confirm Password do not match.";
+        header("Location: registration.php");
+        exit();
+    }
+
+    // Password complexity check
+    $password_pattern = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{8,}$/";
+    if (!preg_match($password_pattern, $password)) {
+        $_SESSION['errmsg'] = "Password must be at least 8 characters and include uppercase, lowercase, number, and special character.";
+        header("Location: registration.php");
+        exit();
+    }
+
+    // Check if email already exists
+    $check = mysqli_query($con, "SELECT id FROM users WHERE email='$email'");
+    if (mysqli_num_rows($check) > 0) {
+        $_SESSION['errmsg'] = "Email already registered. Please log in.";
+        header("Location: registration.php");
+        exit();
+    }
+
+    // Insert new user
+    $password_hashed = md5($password);
+    $query = mysqli_query($con, "INSERT INTO users(fullname,address,city,gender,email,password) VALUES('$fname','$address','$city','$gender','$email','$password_hashed')");
+
     if ($query) {
-        echo "<script>alert('Successfully Registered. You can login now');</script>";
+        $_SESSION['successmsg'] = "Successfully registered! Redirecting to login page...";
+        header("Location: registration.php");
+        exit();
+    } else {
+        $_SESSION['errmsg'] = "Registration failed. Please try again later.";
+        header("Location: registration.php");
+        exit();
     }
 }
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="php-bg">
 
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HeavenKare | Patient Registration</title>
 
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Google fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        rel="stylesheet" />
 
-    <script>
-    function valid() {
-        if (document.registration.password.value != document.registration.password_again.value) {
-            alert("Password and Confirm Password do not match!");
-            document.registration.password_again.focus();
-            return false;
-        }
-        return true;
-    }
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
 
-    function userAvailability() {
-        $("#loaderIcon").show();
-        $.ajax({
-            url: "check_availability.php",
-            data: 'email=' + $("#email").val(),
-            type: "POST",
-            success: function(data) {
-                $("#user-availability-status1").html(data);
-                $("#loaderIcon").hide();
-            },
-            error: function() {}
-        });
-    }
-    </script>
-
-    <style>
-    .input-group {
-        position: relative;
-        margin-top: 1.5rem;
-    }
-
-    .input-group input {
-        width: 100%;
-        border: none;
-        border-bottom: 2px solid #ccc;
-        background: transparent;
-        padding: 10px 0;
-        color: #111;
-        outline: none;
-        font-size: 1rem;
-    }
-
-    .input-group label {
-        position: absolute;
-        left: 0;
-        top: 10px;
-        color: #777;
-        font-size: 1rem;
-        pointer-events: none;
-        transition: 0.3s ease all;
-    }
-
-    .input-group input:focus~label,
-    .input-group input:not(:placeholder-shown)~label {
-        top: -10px;
-        font-size: 0.8rem;
-        color: #2563eb;
-    }
-
-    .input-group i {
-        position: absolute;
-        right: 0;
-        top: 10px;
-        color: #aaa;
-    }
-
-    .input-group input:focus {
-        border-color: #2563eb;
-    }
-    </style>
+    <!-- Tailwind CSS -->
+    <link href="../src/output.css" rel="stylesheet">
 </head>
 
-<body class="min-h-screen bg-gray-50 flex">
+<body class="php-bg">
+    <div class="flex flex-col lg:flex-row">
 
-    <!-- Left Banner Fixed -->
-    <div
-        class="hidden lg:flex fixed left-0 top-0 w-1/2 h-screen bg-gradient-to-br from-blue-500 to-teal-400 items-center justify-center p-10">
-        <div class="text-white max-w-md space-y-6 text-center">
-            <h1 class="text-4xl font-extrabold">Welcome to HeavenCare</h1>
-            <p class="text-lg opacity-90">Register and manage your hospital visits with ease. Efficient, safe, and
-                reliable.</p>
-            <i class="fa fa-hospital fa-10x opacity-20"></i>
+        <!-- Left Illustration Banner -->
+        <div class="php-register-banner">
+            <i class="fa fa-hospital fa-8x mb-5 text-white/80"></i>
+            <h1 class="php-headline">Welcome to HeavenCare</h1>
+            <p class="php-text">Register and manage your hospital visits with ease. Efficient, safe, and reliable.</p>
         </div>
-    </div>
 
-    <!-- Right Form Section -->
-    <div class="flex-1 w-full min-h-screen flex items-start justify-center py-10 lg:ml-[50vw]">
-        <div class="w-full max-w-md">
-            <div class="text-center mb-8">
-                <h1 class="text-3xl font-bold text-gray-800">Patient Registration</h1>
-                <p class="text-gray-500 mt-2">Create your account to manage hospital visits</p>
+        <!-- Right Form Section -->
+        <div class="w-11/12 lg:w-1/2 py-12 mx-auto">
+            <!-- Form heading -->
+            <div class="form-heading">
+                <h2 class="php-headline !text-sky-800">Create Your Account</h2>
+                <p class="php-text !text-sky-800/80 !max-w-sm">
+                    Join HeavenKare today and manage your hospital visits and health records effortlessly.
+                </p>
             </div>
 
-            <form name="registration" id="registration" method="post" onsubmit="return valid();"
-                class="bg-white shadow-xl rounded-2xl p-8 space-y-6">
+            <div class="php-card py-10 px-4 lg:px-6 xl:w-4/6 mx-auto max-w-md">
 
-                <!-- Full Name -->
-                <div class="input-group">
-                    <input type="text" name="full_name" placeholder=" " required>
-                    <label>Full Name</label>
-                    <i class="fa fa-user"></i>
-                </div>
+                <!-- Error / Success Messages -->
+                <span id="regError" class="php-error hidden">
+                    <i class="fas fa-circle-exclamation text-red-700"></i>
+                    <span id="regErrorText"></span>
+                </span>
+                <span id="regSuccess" class="php-success hidden">
+                    <i class="fas fa-circle-check text-green-700"></i>
+                    <span id="regSuccessText"></span>
+                </span>
 
-                <!-- Address -->
-                <div class="input-group">
-                    <input type="text" name="address" placeholder=" " required>
-                    <label>Address</label>
-                    <i class="fa fa-home"></i>
-                </div>
+                <form name="registration" id="registration" method="post" class="php-form w-full">
 
-                <!-- City -->
-                <div class="input-group">
-                    <input type="text" name="city" placeholder=" " required>
-                    <label>City</label>
-                    <i class="fa fa-city"></i>
-                </div>
+                    <div class="php-field">
+                        <i class="fa fa-user php-icon"></i>
+                        <input type="text" name="full_name" placeholder="Full Name" required class="php-input" />
+                    </div>
 
-                <!-- Gender -->
-                <div class="flex gap-6 items-center mt-6">
-                    <span class="text-gray-700 font-medium">Gender:</span>
-                    <label class="flex items-center gap-2">
-                        <input type="radio" name="gender" value="female" class="h-4 w-4 text-blue-600"> Female
-                    </label>
-                    <label class="flex items-center gap-2">
-                        <input type="radio" name="gender" value="male" class="h-4 w-4 text-blue-600"> Male
-                    </label>
-                </div>
+                    <div class="php-field">
+                        <i class="fa fa-home php-icon"></i>
+                        <input type="text" name="address" placeholder="Address" required class="php-input" />
+                    </div>
 
-                <!-- Email -->
-                <div class="input-group">
-                    <input type="email" name="email" id="email" placeholder=" " required onblur="userAvailability()">
-                    <label>Email</label>
-                    <i class="fa fa-envelope"></i>
-                </div>
-                <span id="user-availability-status1" class="text-xs text-red-500 mt-1 block"></span>
+                    <div class="php-field">
+                        <i class="fa fa-city php-icon"></i>
+                        <input type="text" name="city" placeholder="City" required class="php-input" />
+                    </div>
 
-                <!-- Password -->
-                <div class="input-group">
-                    <input type="password" name="password" id="password" placeholder=" " required>
-                    <label>Password</label>
-                    <i class="fa fa-lock"></i>
-                </div>
+                    <div class="php-field">
+                        <i class="fa fa-venus-mars php-icon"></i>
+                        <div class="flex items-center gap-4">
+                            <label><input type="radio" name="gender" value="female" class="php-radio"> Female</label>
+                            <label class="flex items-center gap-2">
+                                <input type="radio" name="gender" value="male" class="php-radio"> Male
+                            </label>
+                        </div>
+                    </div>
 
-                <!-- Confirm Password -->
-                <div class="input-group">
-                    <input type="password" name="password_again" id="password_again" placeholder=" " required>
-                    <label>Confirm Password</label>
-                    <i class="fa fa-lock"></i>
-                </div>
+                    <div class="php-field">
+                        <i class="fa fa-envelope php-icon"></i>
+                        <input type="email" name="email" id="email" placeholder="Email" required class="php-input" />
+                    </div>
 
-                <!-- Agree Checkbox -->
-                <label class="flex items-center gap-2 text-gray-700 mt-4">
-                    <input type="checkbox" id="agree" value="agree" checked readonly class="form-checkbox h-4 w-4">
-                    I agree to the terms and conditions
-                </label>
+                    <div class="php-field">
+                        <i class="fa fa-lock php-icon"></i>
+                        <input type="password" name="password" id="password" placeholder="Password" required
+                            class="php-input" />
+                    </div>
 
-                <!-- Submit Button -->
-                <button type="submit" name="submit"
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-xl flex justify-center items-center gap-2 transition duration-200 mt-4">
-                    Register <i class="fa fa-arrow-right"></i>
-                </button>
+                    <div class="php-field">
+                        <i class="fa fa-lock php-icon"></i>
+                        <input type="password" name="password_again" id="password_again" placeholder="Confirm Password"
+                            required class="php-input" />
+                    </div>
 
-                <!-- Login link -->
-                <p class="text-center text-gray-500 text-sm mt-4">
-                    Already have an account?
-                    <a href="user-login.php" class="text-blue-600 font-medium hover:underline">Log in</a>
-                </p>
-            </form>
+                    <div class="php-field border-none !bg-transparent">
+                        <input type="checkbox" id="agree" value="agree" checked readonly
+                            class="php-checkbox accent-sky-600" />
+                        <label for="agree" class="text-slate-600 text-sm">I agree to the terms and conditions</label>
+                    </div>
+
+                    <button type="submit" name="submit" class="php-btn">
+                        Register <i class="fa fa-arrow-right ml-2"></i>
+                    </button>
+
+                    <p class="php-link-text">
+                        Already have an account?
+                        <a href="user-login.php" class="php-link">Log in</a>
+                    </p>
+                </form>
+            </div>
+
+            <p class="php-footer">
+                © 2025 <span>HeavenKare HSM</span>. All Rights Reserved.
+            </p>
         </div>
     </div>
 
+    <!-- Message Script -->
+    <script>
+    function showError(msg) {
+        const err = document.getElementById('regError');
+        const errTxt = document.getElementById('regErrorText');
+        errTxt.textContent = msg;
+        err.classList.remove('hidden');
+        err.classList.add('show');
+    }
+
+    function showSuccess(msg) {
+        const suc = document.getElementById('regSuccess');
+        const sucTxt = document.getElementById('regSuccessText');
+        sucTxt.textContent = msg;
+        suc.classList.remove('hidden');
+        suc.classList.add('show');
+
+        // Redirect to login after 3 seconds
+        setTimeout(() => {
+            window.location.href = 'user-login.php';
+        }, 1500);
+    }
+
+    <?php if (!empty($_SESSION['errmsg'])): ?>
+    showError("<?php echo $_SESSION['errmsg']; ?>");
+    <?php $_SESSION['errmsg'] = ""; ?>
+    <?php endif; ?>
+
+    <?php if (!empty($_SESSION['successmsg'])): ?>
+    showSuccess("<?php echo $_SESSION['successmsg']; ?>");
+    <?php $_SESSION['successmsg'] = ""; ?>
+    <?php endif; ?>
+    </script>
 </body>
 
 </html>
