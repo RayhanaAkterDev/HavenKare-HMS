@@ -525,7 +525,7 @@
                             </li>
                         </ul>
 
-                        <a href="./hms/user-login.php"
+                        <a href="./hms/user-login.php" target="_blank"
                             class="login-section__button portal-btn intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[800ms]">
                             Access Patient Portal
                             <span class="icon-[tabler--activity-heartbeat]"></span>
@@ -603,7 +603,7 @@
                             </li>
                         </ul>
 
-                        <a href="#"
+                        <a href="./hms/doctor/index.php" target="_blank"
                             class="login-section__button portal-btn intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[800ms]">
                             Access Doctor Portal
                             <span class="icon-[tabler--stethoscope]"></span>
@@ -682,7 +682,7 @@
                             </li>
                         </ul>
 
-                        <a href="#"
+                        <a href="./hms/admin/index.php" target="_blank"
                             class="login-section__button portal-btn intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[800ms]">
                             Access Admin Portal <span class="icon-[tabler--shield-lock]"></span>
                         </a>

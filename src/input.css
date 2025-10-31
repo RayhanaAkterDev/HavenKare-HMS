@@ -852,24 +852,27 @@ html {
 
 /* ===== Card / Panel ===== */
 .php-card {
-	@apply shadow-xl rounded-3xl flex flex-col items-center hover:scale-[1.01] hover:shadow-2xl transition-all duration-300 border-t border-gray-200;
+	@apply flex flex-col items-center !rounded-3xl;
+	box-shadow: rgba(0, 0, 0, 0.07) 0px 1px 2px, rgba(0, 0, 0, 0.07) 0px 2px 4px,
+		rgba(0, 0, 0, 0.07) 0px 4px 8px, rgba(0, 0, 0, 0.07) 0px 8px 16px,
+		rgba(0, 0, 0, 0.07) 0px 16px 32px, rgba(0, 0, 0, 0.07) 0px 32px 64px !important;
 }
 
 /* ===== Illustration Header (used only in login page) ===== */
 .php-illustration {
-	@apply relative bg-gradient-to-br from-sky-600 to-sky-700 flex flex-col items-center justify-center text-center p-10 rounded-t-3xl w-full;
+	@apply relative bg-gradient-to-br from-sky-600 to-sky-700 flex flex-col items-center justify-center text-center p-10 w-full rounded-t-lg;
 }
 .php-overlay {
-	@apply absolute inset-0 bg-black/20 rounded-t-3xl;
+	@apply absolute inset-0 bg-black/20 rounded-t-lg;
 }
 .php-illustration-content {
-	@apply relative z-10 text-white;
+	@apply relative z-10 text-center flex flex-col justify-center items-center gap-2;
 }
 .php-headline {
-	@apply text-2xl lg:text-3xl font-extrabold mb-1 tracking-wide;
+	@apply text-lg sm:text-xl md:text-2xl lg:text-3xl font-extrabold tracking-wide text-sky-800;
 }
 .php-text {
-	@apply text-white/80 max-w-xs mx-auto;
+	@apply text-sky-800/60 font-semibold text-base max-w-sm;
 }
 
 /* ===== Form ===== */
@@ -882,13 +885,13 @@ html {
 
 /* Form heading */
 .form-heading {
-	@apply flex flex-col justify-center items-center text-center gap-2 mb-8;
+	@apply flex flex-col justify-center items-center text-center gap-1 mb-6;
 }
 .php-form-title {
 	@apply text-lg font-extrabold text-sky-800/80 text-center;
 }
 .php-form-subtitle {
-	@apply text-xs text-sky-800/50 font-medium max-w-xs;
+	@apply text-sm text-gray-800/50 font-medium px-6 lg:px-10;
 }
 
 /* ===== Input Field ===== */
@@ -983,6 +986,6 @@ html {
 
 /* Register Banner */
 .php-register-banner {
-	@apply flex w-full lg:w-1/2 p-12 
-	bg-gradient-to-br from-sky-600 to-sky-700 flex-col items-center justify-center text-center text-white;
+	@apply flex flex-col gap-2 items-center justify-center text-center w-full lg:w-1/2 p-12 
+	bg-gradient-to-br from-sky-600 to-sky-700 text-white;
 }

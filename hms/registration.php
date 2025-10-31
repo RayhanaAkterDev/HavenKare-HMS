@@ -92,22 +92,23 @@ if (isset($_POST['submit'])) {
 
         <!-- Left Illustration Banner -->
         <div class="php-register-banner">
-            <i class="fa fa-hospital fa-8x mb-5 text-white/80"></i>
-            <h1 class="php-headline">Welcome to HeavenCare</h1>
-            <p class="php-text">Register and manage your hospital visits with ease. Efficient, safe, and reliable.</p>
+            <i class="fa fa-hospital fa-10x mb-5 text-white"></i>
+            <h1 class="php-headline !text-white/90">Welcome to HeavenCare</h1>
+            <p class="php-text !text-white/70">Register and manage your hospital visits with ease. Efficient, safe, and
+                reliable.</p>
         </div>
 
         <!-- Right Form Section -->
         <div class="w-11/12 lg:w-1/2 py-12 mx-auto">
             <!-- Form heading -->
             <div class="form-heading">
-                <h2 class="php-headline !text-sky-800">Create Your Account</h2>
-                <p class="php-text !text-sky-800/80 !max-w-sm">
+                <h2 class="php-headline">Create Your Account</h2>
+                <p class="php-text">
                     Join HeavenKare today and manage your hospital visits and health records effortlessly.
                 </p>
             </div>
 
-            <div class="php-card py-10 px-4 lg:px-6 xl:w-4/6 mx-auto max-w-md">
+            <div class="php-card py-10 px-4 lg:px-6 lg:w-5/6 mx-auto max-w-lg">
 
                 <!-- Error / Success Messages -->
                 <span id="regError" class="php-error hidden">

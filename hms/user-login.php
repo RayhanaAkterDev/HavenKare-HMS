@@ -59,20 +59,33 @@ if (isset($_POST['submit'])) {
 <body class="bg-transparent">
     <section class="php-section">
         <div class="php-container">
-            <div class="php-card">
 
+            <!-- page heading -->
+            <div class="form-heading">
+                <h2 class="php-headline">HeavenKare HMS</h2>
+                <p class="php-text">
+                    Access your secure health dashboard anytime, anywhere.
+                </p>
+            </div>
+
+            <div class="php-card">
                 <div class="php-illustration">
                     <div class="php-overlay"></div>
                     <div class="php-illustration-content">
-                        <i class="fa fa-hospital fa-4x mb-4 text-white/70"></i>
-                        <h2 class="php-headline">HeavenKare</h2>
-                        <p class="php-text">Access your secure health dashboard anytime, anywhere.</p>
+                        <!-- App icon -->
+                        <i class="fa-solid fa-procedures fa-5x text-white/70"></i>
+
+                        <!-- App name -->
+                        <p class="php-text !text-lg !text-white/60">
+                            Patient Login
+                        </p>
                     </div>
                 </div>
 
-                <div class="php-form-wrapper">
+                <div class="php-form-wrapper p-6 md:p-8 bg-white rounded-lg shadow-md">
                     <div class="form-heading">
                         <h2 class="php-form-title">Log in to your account</h2>
+                        <p class="php-form-subtitle">Enter your email and password to continue</p>
                     </div>
 
                     <form method="POST" class="php-form">
