@@ -10,15 +10,15 @@ $currentTime = date('d-m-Y h:i:s A', time());
 $_SESSION['msg1'] = $_SESSION['msg1'] ?? ''; // ✅ prevent undefined notice
 
 if (isset($_POST['submit'])) {
-	$sql = mysqli_query($con, "SELECT password FROM users WHERE password='" . md5($_POST['cpass']) . "' && id='" . $_SESSION['id'] . "'");
-	$num = mysqli_fetch_array($sql);
+    $sql = mysqli_query($con, "SELECT password FROM users WHERE password='" . md5($_POST['cpass']) . "' && id='" . $_SESSION['id'] . "'");
+    $num = mysqli_fetch_array($sql);
 
-	if ($num > 0) {
-		mysqli_query($con, "UPDATE users SET password='" . md5($_POST['npass']) . "', updationDate='$currentTime' WHERE id='" . $_SESSION['id'] . "'");
-		$_SESSION['msg1'] = "Password Changed Successfully !!";
-	} else {
-		$_SESSION['msg1'] = "Old Password not match !!";
-	}
+    if ($num > 0) {
+        mysqli_query($con, "UPDATE users SET password='" . md5($_POST['npass']) . "', updationDate='$currentTime' WHERE id='" . $_SESSION['id'] . "'");
+        $_SESSION['msg1'] = "Password Changed Successfully !!";
+    } else {
+        $_SESSION['msg1'] = "Old Password not match !!";
+    }
 }
 ?>
 
@@ -99,7 +99,7 @@ if (isset($_POST['submit'])) {
                             <?php echo htmlentities($_SESSION['msg1']); ?>
                         </div>
                         <?php $_SESSION['msg1'] = "";
-						} ?>
+                        } ?>
 
                         <!-- Change Password Form -->
                         <form role="form" name="chngpwd" method="post" onSubmit="return valid();"

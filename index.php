@@ -96,11 +96,12 @@
 
     <!-- Carousel -->
     <div id="auto-play" data-carousel='{ "loadingClasses": "opacity-0", "isAutoPlay": true, "speed": 1500}'
-        class="relative w-full">
+        class="relative w-full pt-20">
         <div id="carousel" class="carousel !rounded-none">
             <div class="carousel-body opacity-0">
                 <!-- Slide 1 -->
-                <div class="carousel-slide" style="background-image: url(./assets/images/carousel1.jpg)">
+                <div class="carousel-slide bg-cover bg-center"
+                    style="background-image: url(./assets/images/carousel1.jpg)">
                     <div class="bg-gray-700/80 h-full">
                         <div class="slider1 slider-text">
                             <h2 class="slider-text__title">
@@ -110,7 +111,7 @@
                                 Modern healthcare with compassion and expertise.
                                 <span class="block font-semibold">Your well-being is our priority.</span>
                             </p>
-                            <a class="mt-4 btn btn-gradient" href="#appointments">
+                            <a class="mt-4 btn btn-gradient" href="./hms/user-login.php">
                                 <span>Book an Appointment</span>
                                 <span class="icon-[tabler--plus] rtl:rotate-180 font-bold"></span>
                             </a>
@@ -130,7 +131,7 @@
                                 Cutting-edge technology and experienced specialists.
                                 <span class="block font-semibold">Every treatment tailored to you.</span>
                             </p>
-                            <a class="mt-4 btn btn-gradient" href="#appointments">
+                            <a class="mt-4 btn btn-gradient" href="./hms/user-login.php">
                                 <span>Book an Appointment</span>
                                 <span class="icon-[tabler--plus] rtl:rotate-180 font-bold"></span>
                             </a>
@@ -151,7 +152,7 @@
                                 Personalized attention for every patient.
                                 <span class="block font-semibold">We treat you like family.</span>
                             </p>
-                            <a class="mt-4 btn btn-gradient" href="#appointments">
+                            <a class="mt-4 btn btn-gradient" href="./hms/user-login.php">
                                 <span>Book an Appointment</span>
                                 <span class="icon-[tabler--plus] rtl:rotate-180 font-bold"></span>
                             </a>
@@ -431,13 +432,6 @@
                 </p>
             </div>
 
-            <!-- <div class="relative my-12">
-                <div
-                    class="absolute inset-0 blur-sm bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent opacity-40">
-                </div>
-                <div class="relative h-[1px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent"></div>
-            </div> -->
-
             <!-- Tabs -->
             <nav class="tabs tabs-bordered tabs-md border-t border-shadow pt-12 aria-label=" Tabs" role="tablist"
                 aria-orientation="horizontal">
@@ -531,7 +525,7 @@
                             </li>
                         </ul>
 
-                        <a href="#"
+                        <a href="./hms/user-login.php"
                             class="login-section__button portal-btn intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[800ms]">
                             Access Patient Portal
                             <span class="icon-[tabler--activity-heartbeat]"></span>

@@ -12,10 +12,10 @@ if (!$con) {
 if (isset($_POST['submit'])) {
     $puname = mysqli_real_escape_string($con, $_POST['username']);
     $ppwd = mysqli_real_escape_string($con, md5($_POST['password']));
+    $uip = $_SERVER['REMOTE_ADDR'];
 
     $ret = mysqli_query($con, "SELECT * FROM users WHERE email='$puname' AND password='$ppwd'");
     $num = mysqli_fetch_array($ret);
-    $uip = $_SERVER['REMOTE_ADDR'];
 
     if ($num > 0) {
         $_SESSION['login'] = $puname;
@@ -23,6 +23,10 @@ if (isset($_POST['submit'])) {
         $pid = $num['id'];
         $status = 1;
         mysqli_query($con, "INSERT INTO userlog(uid, username, userip, status) VALUES('$pid','$puname','$uip','$status')");
+
+        // Success message
+        $_SESSION['success_msg'] = "Login Successful! Welcome back.";
+
         header("Location: dashboard.php");
         exit();
     } else {
@@ -43,28 +47,20 @@ if (isset($_POST['submit'])) {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HeavenKare | Patient Login</title>
-
-    <!-- Google fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
         href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
         rel="stylesheet" />
-
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
-    <!-- Tailwind CSS -->
     <link href="../src/output.css" rel="stylesheet">
 </head>
 
 <body class="bg-transparent">
-
     <section class="php-section">
         <div class="php-container">
             <div class="php-card">
 
-                <!-- Illustration Section -->
                 <div class="php-illustration">
                     <div class="php-overlay"></div>
                     <div class="php-illustration-content">
@@ -74,15 +70,12 @@ if (isset($_POST['submit'])) {
                     </div>
                 </div>
 
-                <!-- Login Form -->
                 <div class="php-form-wrapper">
-                    <!-- Form heading -->
                     <div class="form-heading">
                         <h2 class="php-form-title">Log in to your account</h2>
                     </div>
 
                     <form method="POST" class="php-form">
-                        <!-- Error msg -->
                         <span id="loginError" class="php-error hidden">
                             <i class="fas fa-circle-exclamation text-red-700"></i>
                             <span id="loginErrorText"></span>
@@ -123,12 +116,10 @@ if (isset($_POST['submit'])) {
         </div>
     </section>
 
-    <!-- JS to show error -->
     <script>
     function showError(msg) {
         const errorDiv = document.getElementById('loginError');
         const errorText = document.getElementById('loginErrorText');
-
         errorText.textContent = msg;
         errorDiv.classList.remove('hidden');
         errorDiv.classList.add('show');
@@ -140,7 +131,6 @@ if (isset($_POST['submit'])) {
     <?php endif; ?>
     </script>
 
-    <!-- Force page reload on back button -->
     <script>
     window.addEventListener('pageshow', function(event) {
         if (event.persisted) {
@@ -148,7 +138,6 @@ if (isset($_POST['submit'])) {
         }
     });
     </script>
-
 </body>
 
 </html>

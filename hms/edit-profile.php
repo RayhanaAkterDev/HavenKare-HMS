@@ -54,7 +54,7 @@ if (isset($_POST['submit'])) {
 
         <div class="flex grow flex-col lg:ps-75">
             <!-- ---------- MAIN CONTENT ---------- -->
-            <main class="flex flex-col w-full max-w-7xl mx-auto p-6">
+            <main class="flex flex-col w-full max-w-7xl mx-auto p-6 min-h-screen">
                 <div class="card w-full">
 
                     <div class="card-body px-4 pt-6 rounded-xl">

@@ -68,7 +68,8 @@
                             </div>
                         </li>
 
-                        <li><a class="dropdown-item px-3" href="#"><span class="icon-[tabler--user] size-5"></span> My
+                        <li><a class="dropdown-item px-3" href="view-profile.php"><span
+                                    class="icon-[tabler--user] size-5"></span> My
                                 account</a></li>
                         <li><a class="dropdown-item px-3" href="#"><span class="icon-[tabler--settings] size-5"></span>
                                 Setting</a></li>
@@ -88,7 +89,8 @@
                                     class="icon-[tabler--lock-check]"></span> Change Password</a></li>
 
                         <li class="dropdown-footer p-2 pt-1">
-                            <a class="btn btn-text btn-error btn-block h-11 justify-start px-3 font-normal" href="#">
+                            <a class="btn btn-text btn-error btn-block h-11 justify-start px-3 font-normal"
+                                href="logout.php">
                                 <span class="icon-[tabler--logout] size-5"></span> Logout
                             </a>
                         </li>
