@@ -1,73 +1,101 @@
-<?php error_reporting(0); ?>
-<header class="bg-white shadow px-6 py-4 sticky top-0 z-50">
-    <!-- Left side: Sidebar toggler + Brand -->
-    <div class="flex items-center space-x-4">
-        <!-- Mobile sidebar toggle -->
-        <button id="mobile-sidebar-toggler" class="lg:hidden p-2 rounded hover:bg-gray-200">
-            <i class="ti-align-justify text-xl"></i>
-        </button>
+<div class="bg-base-100 sticky top-0 z-50 flex lg:ps-75">
+    <div class="mx-auto w-full max-w-7xl">
+        <nav class="navbar flex items-center h-16">
+            <!-- left -->
+            <div class="flex items-center">
+                <button type="button" class="btn btn-soft btn-square btn-sm me-2 lg:hidden" aria-haspopup="dialog"
+                    aria-expanded="false" aria-controls="layout-toggle" data-overlay="#layout-toggle">
+                    <span class="icon-[tabler--menu-2] size-4.5"></span>
+                </button>
 
-        <!-- Brand -->
-        <a href="#" class="text-2xl font-bold">
-            HMS
-        </a>
+                <!-- breadcrumbs -->
+                <div class="breadcrumbs text-sm">
+                    <ul>
+                        <li><a href="dashboard.php">Dashboard</a></li>
+                        <li>
+                            <?php
+                            // Get the current file name
+                            $currentPage = basename($_SERVER['PHP_SELF']);
+
+                            // Optional: format it nicely (remove extension, replace hyphens with spaces, capitalize words)
+                            $formattedPage = ucwords(str_replace(['-', '_', '.php'], [' ', ' ', ''], $currentPage));
+
+                            echo $formattedPage;
+                            ?>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <!-- right (use ml-auto so it doesn't grow and push layout) -->
+            <div class="ml-auto flex items-center gap-3 mr-2">
+                <!-- PROFILE DROPDOWN -->
+                <div class="dropdown relative inline-flex [--offset:21]">
+                    <button id="profile-dropdown" type="button" class="dropdown-toggle avatar" aria-haspopup="menu"
+                        aria-expanded="false" aria-label="Dropdown">
+                        <span class="rounded-field size-9.5">
+                            <img src="../assets/backend-images/user.jpg" alt="user" class="object-top" />
+                        </span>
+                    </button>
+
+                    <ul class="dropdown-menu absolute end-0 mt-2 z-50 dropdown-open:opacity-100 hidden w-56 max-w-75 space-y-0.5"
+                        role="menu" aria-orientation="vertical" aria-labelledby="profile-dropdown">
+                        <li class="dropdown-header mb-1 gap-4 px-5 pt-4.5 pb-3.5 flex items-center">
+                            <div class="avatar avatar-online-top">
+                                <div class="w-10 rounded-full">
+                                    <img src="../assets/backend-images/user.jpg" alt="user" class="object-top" />
+                                </div>
+                            </div>
+                            <div>
+                                <h6 class="text-base-content mb-0.5 font-semibold">
+                                    <?php
+                                    // safe check to avoid PHP errors if session id isn't set
+                                    if (isset($_SESSION['id']) && isset($con)) {
+                                        $query = mysqli_query($con, "SELECT fullName FROM users WHERE id='" . intval($_SESSION['id']) . "'");
+                                        if ($query) {
+                                            $row = mysqli_fetch_array($query);
+                                            echo htmlspecialchars($row['fullName'] ?? 'User', ENT_QUOTES);
+                                        } else {
+                                            echo 'User';
+                                        }
+                                    } else {
+                                        echo 'User';
+                                    }
+                                    ?>
+                                </h6>
+                                <p class="text-base-content/80 font-medium">Patient</p>
+                            </div>
+                        </li>
+
+                        <li><a class="dropdown-item px-3" href="#"><span class="icon-[tabler--user] size-5"></span> My
+                                account</a></li>
+                        <li><a class="dropdown-item px-3" href="#"><span class="icon-[tabler--settings] size-5"></span>
+                                Setting</a></li>
+                        <li><a class="dropdown-item px-3" href="#"><span
+                                    class="icon-[tabler--credit-card] size-5"></span> Billing</a></li>
+                        <li>
+                            <hr class="border-base-content/20 -mx-2 my-1" />
+                        </li>
+
+                        <!-- Edit profile -->
+                        <li><a class="dropdown-item px-3" href="edit-profile.php"><span
+                                    class="icon-[tabler--user-edit]"></span>
+                                Edit Profile</a></li>
+
+                        <!-- Edit password -->
+                        <li class="mb-1"><a class="dropdown-item px-3" href="change-password.php"><span
+                                    class="icon-[tabler--lock-check]"></span> Change Password</a></li>
+
+                        <li class="dropdown-footer p-2 pt-1">
+                            <a class="btn btn-text btn-error btn-block h-11 justify-start px-3 font-normal" href="#">
+                                <span class="icon-[tabler--logout] size-5"></span> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- END PROFILE -->
+            </div>
+        </nav>
     </div>
-
-    <!-- Center: Title -->
-    <div class="hidden md:block">
-        <h2 class="text-lg font-semibold">Hospital Management System 2</h2>
-    </div>
-
-    <!-- Right side: User Dropdown -->
-    <div class="relative">
-        <button id="user-menu-button" class="flex items-center gap-2 focus:outline-none">
-            <img src="../../assets/images/patient.jpg" alt="User" class=" rounded-full object-cover">
-            <span class="username font-medium">
-                <?php
-                $query = mysqli_query($con, "SELECT fullName FROM users WHERE id='" . $_SESSION['id'] . "'");
-                while ($row = mysqli_fetch_array($query)) {
-                    echo $row['fullName'];
-                }
-                ?>
-                <i class="ti-angle-down"></i>
-            </span>
-        </button>
-
-        <!-- Dropdown Menu -->
-        <ul id="user-dropdown"
-            class="hidden absolute right-0 mt-2 w-48 bg-white border border-gray-200 rounded shadow-lg text-sm">
-            <li>
-                <a href="edit-profile.php" class="block px-4 py-2 hover:bg-gray-100">My Profile</a>
-            </li>
-            <li>
-                <a href="change-password.php" class="block px-4 py-2 hover:bg-gray-100">Change Password</a>
-            </li>
-            <li>
-                <a href="logout.php" class="block px-4 py-2 hover:bg-gray-100">Log Out</a>
-            </li>
-        </ul>
-    </div>
-</header>
-
-<script>
-// Toggle user dropdown
-const userButton = document.getElementById('user-menu-button');
-const userDropdown = document.getElementById('user-dropdown');
-
-userButton.addEventListener('click', () => {
-    userDropdown.classList.toggle('hidden');
-});
-
-// Optional: close dropdown on outside click
-window.addEventListener('click', (e) => {
-    if (!userButton.contains(e.target) && !userDropdown.contains(e.target)) {
-        userDropdown.classList.add('hidden');
-    }
-});
-
-// Optional: mobile sidebar toggle (if you implement a sidebar)
-const mobileToggler = document.getElementById('mobile-sidebar-toggler');
-mobileToggler?.addEventListener('click', () => {
-    document.getElementById('sidebar')?.classList.toggle('-translate-x-full');
-});
-</script>
+</div>

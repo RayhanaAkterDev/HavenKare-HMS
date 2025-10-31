@@ -1,88 +1,74 @@
- <button type="button" class="btn btn-text max-sm:btn-square sm:hidden" aria-haspopup="dialog" aria-expanded="false"
-     aria-controls="collapsible-mini-sidebar" data-overlay="#collapsible-mini-sidebar">
-     <span class="icon-[tabler--menu-2] size-5"></span>
- </button>
-
- <aside id="collapsible-mini-sidebar"
-     class="overlay [--auto-close:sm] overlay-minified:w-17  sm:shadow-none overlay-open:translate-x-0 drawer drawer-start hidden w-66 sm:absolute sm:z-0 sm:flex sm:translate-x-0 border-e border-base-content/20"
-     role="dialog" tabindex="-1">
-
-     <div class="drawer-header  overlay-minified:px-3.75 py-2 w-full flex items-center justify-between gap-3">
-         <h3 class="drawer-title text-xl font-semibold overlay-minified:hidden">FlyonUI</h3>
-         <div class="hidden sm:block">
-             <!-- Toggle Button -->
-             <button type="button" class="btn btn-circle btn-text" aria-haspopup="dialog" aria-expanded="false"
-                 aria-controls="collapsible-mini-sidebar" aria-label="Minify navigation"
-                 data-overlay-minifier="#collapsible-mini-sidebar">
-                 <span class="icon-[tabler--menu-2] size-5"></span>
-                 <span class="sr-only">Navigation Toggle</span>
-             </button>
-             <!-- End Toggle Button -->
-         </div>
-     </div>
-     <div class="drawer-body px-2 pt-4">
-         <ul class="menu p-0">
-             <li>
-                 <a href="#">
-                     <span class="icon-[tabler--home] size-5"></span>
-                     <span class="overlay-minified:hidden">Home</span>
-                 </a>
-             </li>
-             <li>
-                 <a href="#">
-                     <span class="icon-[tabler--user] size-5"></span>
-                     <span class="overlay-minified:hidden">Account</span>
-                 </a>
-             </li>
-             <li>
-                 <a href="#">
-                     <span class="icon-[tabler--message] size-5"></span>
-                     <span class="overlay-minified:hidden">Notifications</span>
-                 </a>
-             </li>
-             <li
-                 class="dropdown relative [--adaptive:none] [--strategy:static] overlay-minified:[--adaptive:adaptive] overlay-minified:[--strategy:fixed] overlay-minified:[--offset:15] overlay-minified:[--trigger:hover] overlay-minified:[--placement:right-start]">
-                 <button id="dropdown-default" type="button" class="dropdown-toggle" aria-haspopup="menu"
-                     aria-expanded="false" aria-label="Dropdown">
-                     <span class="icon-[tabler--apps] size-5"></span>
-                     <span class="overlay-minified:hidden">Apps</span>
-                     <span
-                         class="icon-[tabler--chevron-down] dropdown-open:rotate-180 size-4 overlay-minified:hidden"></span>
-                 </button>
-                 <ul class="dropdown-menu mt-0 shadow-none overlay-minified:shadow-md overlay-minified:shadow-base-300/20 dropdown-open:opacity-100 hidden min-w-60 overlay-minified:before:absolute overlay-minified:before:-start-4 overlay-minified:before:top-0 overlay-minified:before:h-full overlay-minified:before:w-4 before:bg-transparent"
-                     role="menu" aria-orientation="vertical" aria-labelledby="dropdown-default">
-                     <li>
-                         <a href="#">
-                             <span class="icon-[tabler--mail] size-5"></span>
-                             Email
-                         </a>
-                     </li>
-                     <li>
-                         <a href="#">
-                             <span class="icon-[tabler--calendar] size-5"></span>
-                             Calendar
-                         </a>
-                     </li>
-                 </ul>
-             </li>
-             <li>
-                 <a href="#">
-                     <span class="icon-[tabler--shopping-bag] size-5"></span>
-                     <span class="overlay-minified:hidden">Product</span>
-                 </a>
-             </li>
-             <li>
-                 <a href="#">
-                     <span class="icon-[tabler--login] size-5"></span>
-                     <span class="overlay-minified:hidden">Sign In</span>
-                 </a>
-             </li>
-             <li>
-                 <a href="#">
-                     <span class="icon-[tabler--logout-2] size-5"></span>
-                     <span class="overlay-minified:hidden">Sign Out</span>
-                 </a>
-             </li>
-         </ul>
-     </div>
- </aside>
+<aside id="layout-toggle"
+    class="overlay overlay-open:translate-x-0 drawer drawer-start inset-y-0 start-0 hidden h-full [--auto-close:lg] sm:w-75 lg:block lg:translate-x-0 lg:shadow-none"
+    aria-label="Sidebar" tabindex="-1">
+    <div class="drawer-body border-base-content/20 h-full border-e p-0">
+        <div class="flex h-full max-h-full flex-col">
+            <button type="button" class="btn btn-text btn-circle btn-sm absolute end-3 top-3 lg:hidden"
+                aria-label="Close" data-overlay="#layout-toggle">
+                <span class="icon-[tabler--x] size-5"></span>
+            </button>
+            <div class="text-base-content border-base-content/20 flex flex-col items-center gap-4 border-b px-4 py-6">
+                <div class="avatar">
+                    <div class="size-17 rounded-full">
+                        <img class="object-top" src="../assets/backend-images/user.jpg" alt="user-img" />
+                    </div>
+                </div>
+                <div class="text-center">
+                    <h3 class="text-base-content text-lg font-semibold">
+                        <?php
+                        $query = mysqli_query($con, "SELECT fullName FROM users WHERE id='" . $_SESSION['id'] . "'");
+                        $row = mysqli_fetch_array($query);
+                        echo $row['fullName'];
+                        ?>
+                    </h3>
+                    <p class="text-base-content/80">
+                        <?php
+                        $query = mysqli_query($con, "SELECT email FROM users WHERE id='" . $_SESSION['id'] . "'");
+                        $row = mysqli_fetch_array($query);
+                        echo $row['email'];
+                        ?>
+                    </p>
+                </div>
+            </div>
+            <div class="h-full overflow-y-auto">
+                <ul class="menu menu-sm gap-1 px-4">
+                    <li class="mt-2.5">
+                        <a href="dashboard.php"
+                            class="px-2 <?= $currentPage == 'dashboard.php' ? 'menu-active' : '' ?>">
+                            <span class="icon-[tabler--dashboard] size-4.5"></span>
+                            <span class="grow">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="text-base-content/50 mt-2.5 p-2 text-xs uppercase">Pages</li>
+                    <li>
+                        <a href="book-appointment.php"
+                            class="px-2 <?= $currentPage == 'book-appointment.php' ? 'menu-active' : '' ?>">
+                            <span class="icon-[tabler--file-invoice] size-4.5"></span>
+                            Book Appointment
+                        </a>
+                    </li>
+                    <li>
+                        <a href="appointment-history.php"
+                            class="px-2 <?= $currentPage == 'appointment-history.php' ? 'menu-active' : '' ?>">
+                            <span class="icon-[tabler--users] size-4.5"></span>
+                            Appointment History
+                        </a>
+                    </li>
+                    <li>
+                        <a href="view-medical-history.php"
+                            class="px-2 <?= $currentPage == 'view-medical-history.php' ? 'menu-active' : '' ?>">
+                            <span class="icon-[tabler--chart-pie-2] size-4.5"></span>
+                            Medical History
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mt-auto flex items-center p-4">
+                <img src="../assets/images/logo.png" class="w-16" alt="">
+                <div>
+                    <span class="text-base-content block text-xl font-bold">HeavenKare HSM</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</aside>
