@@ -15,57 +15,6 @@ The **HavenKare Hospital Management System (HMS)** is a web-based application de
 
 ---
 
-## Technologies Used
-
-- **Frontend:** HTML, CSS, JavaScript, React  
-- **Backend:** PHP, Laravel (or chosen backend framework)  
-- **Database:** MySQL / MariaDB  
-- **Version Control:** Git & GitHub  
-
----
-
-## Project Structure
-
-```cpp
-HavenKare-HMS/
-├── frontend/          # Frontend source files (HTML, CSS, JS, React)
-├── backend/           # Backend source files (Laravel/PHP)
-├── database/          # Database scripts and migrations
-├── README.md          # Project documentation
-└── LICENSE            # License file
-```
-
----
-
-## Installation
-
-1. Clone the repository:  
-
-    ```bash
-    git clone https://github.com/RayhanaAkterDev/HavenKare-HMS.git
-    ```
-
-2. Navigate to the project folder:  
-
-    ```bash
-    cd HavenKare-HMS
-    ```
-
-3. Install dependencies (Frontend/Backend as required).  
-4. Set up the database using provided SQL scripts or migrations.  
-5. Run the server and open the project in your browser.  
-
----
-
-## Usage
-
-- Register patients and doctors  
-- Schedule and manage appointments  
-- Generate billing and financial reports  
-- Manage medicine inventory and supplies  
-
----
-
 ## Contributing
 
 Contributions are welcome. Please fork the repository, create a branch for your feature/fix, and submit a pull request.  

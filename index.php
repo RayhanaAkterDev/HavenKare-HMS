@@ -1,8 +1,5 @@
 <!--
   @project     : HeavenKare HMS
-  @description : A modern, responsive Hospital Management System built using Tailwind CSS & PHP as Backend Language.
-  
-  @feature     :
   
   @author      : Rayhana Akter Sumaya
   @email       : rayhanaaktersumaya.dev@gmail.com
@@ -22,7 +19,15 @@
     <title>Heaven Kare</title>
 
     <!-- Favicon -->
-    <link rel="shortcut icon" href="./assets/images/favicon.ico" type="image/x-icon" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./assets/favicon/android-chrome-512x512.png">
+
+    <link rel="icon" type="image/png" sizes="192x192" href="./assets/favicon/android-chrome-192x192.png">
+
+    <link rel="icon" type="image/png" sizes="32x32" href="./assets/favicon/favicon-32x32.png">
+
+    <link rel="icon" type="image/png" sizes="16x16" href="./assets/favicon/favicon-16x16.png">
+
+    <link rel="shortcut icon" href="./assets/favicon/favicon.ico" type="image/x-icon" />
 
     <!-- Font awesome link -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
@@ -35,10 +40,21 @@
         rel="stylesheet" />
 
     <!-- style file  -->
+    <link rel="stylesheet" href="./dist/css/accord.css">
+    <link rel="stylesheet" href="./dist/css/glide.core.min.css">
+    <link rel="stylesheet" href="./dist/css/glide.theme.min.css">
+
     <link href="./src/output.css" rel="stylesheet" />
+
 </head>
 
 <body>
+    <!-- Loader Overlay -->
+    <div id="loader-overlay"
+        class="fixed top-0 left-0 w-screen h-screen flex items-center justify-center bg-[#fffaf0] z-[99999] overflow-hidden">
+        <div class="w-12 h-12 rounded-full border-4 border-[rgba(0,0,0,0.1)] border-t-[#d4af37] animate-spin"></div>
+    </div>
+
     <!-- Navbar -->
     <header id="header">
         <nav class="nav-bar">
@@ -52,23 +68,23 @@
 
             <!-- Desktop Menu -->
             <ul class="desktop-menu">
-                <li><a href="/">Home</a></li>
-                <li><a href="#services">Services</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li><a href="#about_us">About Us</a></li>
+                <li><a href="#services">Services</a></li>
                 <li><a href="#gallery">Gallery</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="#login">Logins</a></li>
             </ul>
 
             <!-- Appointment Button -->
-            <a href="./hms/user-login.php" class="appointment-btn">
+            <a href="./hms/user-login.php" target="_blank" class="appointment-btn">
                 <span class="icon-[tabler--hand-click] text-lg"></span>
                 <span>Book Appointment</span>
             </a>
 
             <!-- Mobile Menu Button -->
             <div class="lg:hidden">
-                <button id="menu-btn" class="mobile-menu_btn">
+                <button id="menu-btn" class="mobile-menu_btn cursor-pointer">
                     <span class="icon-[tabler--menu-2] text-3xl"></span>
                 </button>
             </div>
@@ -77,14 +93,14 @@
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="mobile-menus lg:hidden">
             <ul>
-                <li><a href="#home">Home</a></li>
-                <li><a href="#services">Services</a></li>
+                <li><a href="index.php">Home</a></li>
                 <li><a href="#about_us">About Us</a></li>
+                <li><a href="#services">Services</a></li>
                 <li><a href="#gallery">Gallery</a></li>
                 <li><a href="#contact">Contact</a></li>
                 <li><a href="#login">Logins</a></li>
                 <li>
-                    <a href="./hms/user-login.php" class="mobile-appointment_btn">
+                    <a href="./hms/user-login.php" target="_blank" class="mobile-appointment_btn">
                         <span class="icon-[tabler--hand-click] text-lg"></span>
                         Book Appointment
                     </a>
@@ -95,15 +111,15 @@
     <!-- ================================ -->
 
     <!-- Carousel -->
-    <div id="auto-play" data-carousel='{ "loadingClasses": "opacity-0", "isAutoPlay": true, "speed": 1500}'
-        class="relative w-full pt-20">
-        <div id="carousel" class="carousel !rounded-none">
-            <div class="carousel-body opacity-0">
+    <div class="glide !mt-12 lg:!mt-24">
+        <div class="glide__track" data-glide-el="track">
+            <ul class="glide__slides slider-height">
+
                 <!-- Slide 1 -->
-                <div class="carousel-slide bg-cover bg-center"
-                    style="background-image: url(./assets/images/carousel1.jpg)">
-                    <div class="bg-gray-700/80 h-full">
-                        <div class="slider1 slider-text">
+                <li class="glide__slide relative bg-cover bg-center h-full">
+                    <img src="./assets/carousel1.jpg" alt="carousel img 1" class="w-full h-full object-cover">
+                    <div class="slider">
+                        <div class="slider-text slider1">
                             <h2 class="slider-text__title">
                                 Welcome to <span>HeavenKare</span>
                             </h2>
@@ -111,55 +127,62 @@
                                 Modern healthcare with compassion and expertise.
                                 <span class="block font-semibold">Your well-being is our priority.</span>
                             </p>
-                            <a class="mt-4 btn btn-gradient" href="./hms/user-login.php">
+                            <a href="./hms/user-login.php" class="mt-4 btn btn-gradient">
                                 <span>Book an Appointment</span>
                                 <span class="icon-[tabler--plus] rtl:rotate-180 font-bold"></span>
                             </a>
                         </div>
                     </div>
-                </div>
+                </li>
 
                 <!-- Slide 2 -->
-                <div class="carousel-slide bg-cover bg-center"
-                    style="background-image: url(./assets/images/carousel2.jpeg)">
-                    <div class="bg-gray-700/80 h-full">
-                        <div class="slider2 slider-text">
+                <li class="glide__slide relative bg-cover bg-center">
+                    <img src="./assets/carousel2.jpeg" alt="carousel img 2" class="w-full h-full object-cover">
+                    <div class="slider">
+                        <div class="slider-text slider2">
                             <h2 class="slider-text__title">
-                                Advanced <span class="block sm:inline">Medical Care</span>
+                                Advanced <span>Medical Care</span>
                             </h2>
                             <p class="slider-text__sub-title">
                                 Cutting-edge technology and experienced specialists.
                                 <span class="block font-semibold">Every treatment tailored to you.</span>
                             </p>
-                            <a class="mt-4 btn btn-gradient" href="./hms/user-login.php">
+                            <a href="./hms/user-login.php" class="mt-4 btn btn-gradient">
                                 <span>Book an Appointment</span>
                                 <span class="icon-[tabler--plus] rtl:rotate-180 font-bold"></span>
                             </a>
                         </div>
                     </div>
-                </div>
+                </li>
 
                 <!-- Slide 3 -->
-                <div class="carousel-slide bg-cover bg-center"
-                    style="background-image: url(./assets/images/carousel3.jpg)">
-                    <div class="bg-gray-700/80 h-full">
-                        <div class="slider3 slider-text">
+                <li class="glide__slide relative bg-cover bg-center">
+                    <img src="./assets/carousel3.jpg" alt="carousel img 3" class="w-full h-full object-cover">
+                    <div class="slider">
+                        <div class="slider-text slider3">
                             <h2 class="slider-text__title">
-                                Compassionate
-                                <span class="block sm:inline">Patient Care</span>
+                                Compassionate <span>Patient Care</span>
                             </h2>
                             <p class="slider-text__sub-title">
                                 Personalized attention for every patient.
                                 <span class="block font-semibold">We treat you like family.</span>
                             </p>
-                            <a class="mt-4 btn btn-gradient" href="./hms/user-login.php">
+                            <a href="./hms/user-login.php" class="mt-4 btn btn-gradient">
                                 <span>Book an Appointment</span>
                                 <span class="icon-[tabler--plus] rtl:rotate-180 font-bold"></span>
                             </a>
                         </div>
                     </div>
-                </div>
-            </div>
+                </li>
+
+            </ul>
+        </div>
+
+        <!-- Optional bullets -->
+        <div class="glide__bullets" data-glide-el="controls[nav]">
+            <button class="glide__bullet" data-glide-dir="=0"></button>
+            <button class="glide__bullet" data-glide-dir="=1"></button>
+            <button class="glide__bullet" data-glide-dir="=2"></button>
         </div>
     </div>
     <!-- ================================ -->
@@ -312,8 +335,6 @@
                     Management
                     System (HMS) ensures precision and efficiency in every step, from patient records to staff
                     schedules, creating a seamless healthcare experience. </p>
-
-                <!-- <img src="./assets/images/portal.png" alt=""> -->
             </div>
 
         </div>
@@ -432,260 +453,187 @@
                 </p>
             </div>
 
-            <!-- Tabs -->
-            <nav class="tabs tabs-bordered tabs-md border-t border-shadow pt-12 aria-label=" Tabs" role="tablist"
-                aria-orientation="horizontal">
-                <button type="button" class="tab active-tab:tab-active active" id="tabs-default-item-1"
-                    data-tab="#tabs-default-1" aria-controls="tabs-default-1" role="tab" aria-selected="true">
-                    Patient
-                </button>
-                <button type="button" class="tab active-tab:tab-active" id="tabs-default-item-2"
-                    data-tab="#tabs-default-2" aria-controls="tabs-default-2" role="tab" aria-selected="false">
-                    Doctor
-                </button>
-                <button type="button" class="tab active-tab:tab-active" id="tabs-default-item-3"
-                    data-tab="#tabs-default-3" aria-controls="tabs-default-3" role="tab" aria-selected="false">
-                    Admin
-                </button>
-            </nav>
-
-            <div class="mt-2.5">
-                <!-- Patient Portal -->
-                <div id="tabs-default-1" role="tabpanel" aria-labelledby="tabs-default-item-1">
-                    <div id="patient" class="login-section__portal-content">
-                        <div
-                            class="intersect:motion-preset-slide-up-left intersect:motion-ease-spring intersect:motion-delay-[400ms]">
-                            <h2 class="portal-heading">Patient Portal</h2>
-                            <p class="portal-desc">
-                                Easily manage your appointments, prescriptions, and test reports from anywhere —
-                                securely
-                                and conveniently.
-                            </p>
-                        </div>
-
-                        <ul class="portal-list">
-                            <li
-                                class="portal-item intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[500ms]">
-                                <button type="button" class="collapse-toggle" id="collapse-1" aria-expanded="false"
-                                    aria-controls="collapse-content-1" data-collapse="#collapse-content-1">
-                                    <span class="flex items-center gap-3">
-                                        <span class="icon-[tabler--report-medical] text-gold-soft text-lg"></span>
-                                        View prescriptions, lab results & medical reports
-                                    </span>
-                                    <span
-                                        class="icon-[tabler--chevron-down] collapse-open:rotate-180 size-4 text-gold-soft transition-transform duration-300"></span>
-                                </button>
-
-                                <div id="collapse-content-1" class="collapse hidden" aria-labelledby="collapse-1">
-                                    <div>
-                                        Easily check and download your past prescriptions, test results, and doctor
-                                        notes
-                                        from your personal dashboard.
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li
-                                class="portal-item intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[600ms]">
-                                <button type="button" class="collapse-toggle" id="collapse-2" aria-expanded="false"
-                                    aria-controls="collapse-content-2" data-collapse="#collapse-content-2">
-                                    <span class="flex items-center gap-3">
-                                        <span class="icon-[tabler--calendar-check] text-gold-soft text-lg"></span>
-                                        Book or reschedule doctor appointments anytime
-                                    </span>
-                                    <span
-                                        class="icon-[tabler--chevron-down] collapse-open:rotate-180 size-4 text-gold-soft transition-transform duration-300"></span>
-                                </button>
-                                <div id="collapse-content-2" class="collapse hidden" aria-labelledby="collapse-2">
-                                    <div>
-                                        Schedule new appointments or reschedule existing ones with a few clicks — no
-                                        calls
-                                        or paperwork needed.
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li
-                                class="portal-item intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[700ms]">
-                                <button type="button" class="collapse-toggle" id="collapse-3" aria-expanded="false"
-                                    aria-controls="collapse-content-3" data-collapse="#collapse-content-3">
-                                    <span class="flex items-center gap-3">
-                                        <span class="icon-[tabler--messages] text-gold-soft text-lg"></span>
-                                        Chat with your doctor or healthcare team securely
-                                    </span>
-                                    <span
-                                        class="icon-[tabler--chevron-down] collapse-open:rotate-180 size-4 text-gold-soft transition-transform duration-300"></span>
-                                </button>
-                                <div id="collapse-content-3" class="collapse hidden" aria-labelledby="collapse-3">
-                                    <div>
-                                        Stay connected with your healthcare providers in real-time through secure in-app
-                                        messaging.
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-
-                        <a href="./hms/user-login.php" target="_blank"
-                            class="login-section__button portal-btn intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[800ms]">
-                            Access Patient Portal
-                            <span class="icon-[tabler--activity-heartbeat]"></span>
-                        </a>
-                    </div>
+            <div class="slidingTab">
+                <div class="tab">
+                    <span class="tab1">Patient</span>
+                    <span class="tab2">Doctor</span>
+                    <span class="tab3">admin</span>
                 </div>
 
-                <!-- Doctor Portal -->
-                <div id="tabs-default-2" class="hidden" role="tabpanel" aria-labelledby="tabs-default-item-2">
-                    <div id="doctor" class="login-section__portal-content">
-                        <div
-                            class="intersect:motion-preset-slide-up-left intersect:motion-ease-spring intersect:motion-delay-[400ms]">
-                            <h2 class="portal-heading">Doctor Portal</h2>
-                            <p class="portal-desc">
-                                Manage your patients, consultations, and schedules in one smart and secure workspace.
-                            </p>
+                <div class="panel_container ">
+                    <div class="panels">
+                        <!-- patient panel -->
+                        <div class="panel">
+                            <div class="panel_content">
+                                <h2 class="portal-heading">Patient Portal</h2>
+                                <p class="portal-desc">
+                                    Easily manage your appointments, prescriptions, and test reports from anywhere —
+                                    securely
+                                    and conveniently.
+                                </p>
+
+                                <div class="accord">
+                                    <div class="accord-item portal-item">
+                                        <div class="accord-heading">
+                                            <p class="flex justify-center items-center gap-2">
+                                                <span
+                                                    class="icon-[tabler--report-medical] text-gold-soft text-lg"></span>
+                                                View prescriptions, lab results & medical reports
+                                            </p>
+                                        </div>
+                                        <div class="accord-panel">Easily check and download your past prescriptions,
+                                            test results, and doctor
+                                            notes
+                                            from your personal dashboard.</div>
+                                    </div>
+
+                                    <div class="accord-item portal-item">
+                                        <div class="accord-heading">
+                                            <p class="flex justify-center items-center gap-2">
+                                                <span
+                                                    class="icon-[tabler--calendar-check] text-gold-soft text-lg"></span>
+                                                Book or reschedule doctor appointments anytime
+                                            </p>
+                                        </div>
+                                        <div class="accord-panel"> Schedule new appointments or reschedule existing ones
+                                            with a few clicks — no
+                                            calls
+                                            or paperwork needed.</div>
+                                    </div>
+
+                                    <div class="accord-item portal-item">
+                                        <div class="accord-heading">
+                                            <p class="flex justify-center items-center gap-2">
+                                                <span class="icon-[tabler--messages] text-gold-soft text-lg"></span>
+                                                Chat with your doctor or healthcare team securely
+                                            </p>
+                                        </div>
+                                        <div class="accord-panel"> Stay connected with your healthcare providers in
+                                            real-time through secure in-app
+                                            messaging.</div>
+                                    </div>
+                                </div>
+
+                                <a href="./hms/user-login.php" target="_blank" class="login-section__button portal-btn">
+                                    Access Patient Portal
+                                    <span class="icon-[tabler--activity-heartbeat]"></span>
+                                </a>
+                            </div>
                         </div>
 
-                        <ul class="portal-list">
-                            <li
-                                class="portal-item intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[500ms]">
-                                <button type="button" class="collapse-toggle" id="collapse-d1" aria-expanded="false"
-                                    aria-controls="collapse-content-d1" data-collapse="#collapse-content-d1">
-                                    <span class="flex items-center gap-3">
-                                        <span class="icon-[tabler--clipboard-heart] text-gold-soft text-lg"></span>
-                                        View patient histories, prescriptions & diagnostics
-                                    </span>
-                                    <span
-                                        class="icon-[tabler--chevron-down] collapse-open:rotate-180 size-4 text-gold-soft transition-transform duration-300"></span>
-                                </button>
-                                <div id="collapse-content-d1" class="collapse hidden" aria-labelledby="collapse-d1">
-                                    <div>
-                                        Access and review detailed patient records, prescriptions, and diagnostic
-                                        results in
-                                        one dashboard.
+                        <!-- doctor panel -->
+                        <div class="panel">
+                            <div class="panel_content">
+                                <h2 class="portal-heading">Doctor Portal</h2>
+                                <p class="portal-desc">
+                                    Manage your patients, consultations, and schedules in one smart and secure
+                                    workspace.
+                                </p>
+
+                                <div class="accord">
+                                    <div class="accord-item portal-item">
+                                        <div class="accord-heading">
+                                            <p class="flex justify-center items-center gap-2">
+                                                <span
+                                                    class="icon-[tabler--clipboard-heart] text-gold-soft text-lg"></span>
+                                                View patient histories, prescriptions & diagnostics
+                                            </p>
+                                        </div>
+                                        <div class="accord-panel">Access and review detailed patient records,
+                                            prescriptions, and diagnostic
+                                            results in
+                                            one dashboard.</div>
+                                    </div>
+
+                                    <div class="accord-item portal-item">
+                                        <div class="accord-heading">
+                                            <p class="flex justify-center items-center gap-2">
+                                                <span
+                                                    class="icon-[tabler--calendar-time] text-gold-soft text-lg"></span>
+                                                Track and organize daily appointments efficiently
+                                            </p>
+                                        </div>
+                                        <div class="accord-panel">Manage your consultation schedule, track
+                                            cancellations, and plan ahead
+                                            seamlessly.</div>
+                                    </div>
+
+                                    <div class="accord-item portal-item">
+                                        <div class="accord-heading">
+                                            <p class="flex justify-center items-center gap-2">
+                                                <span class="icon-[tabler--users-group] text-gold-soft text-lg"></span>
+                                                Collaborate seamlessly with nurses and other staff
+                                            </p>
+                                        </div>
+                                        <div class="accord-panel"> Coordinate care and share notes securely with medical
+                                            teams in real time.</div>
                                     </div>
                                 </div>
-                            </li>
 
-                            <li
-                                class="portal-item intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[600ms]">
-                                <button type="button" class="collapse-toggle" id="collapse-d2" aria-expanded="false"
-                                    aria-controls="collapse-content-d2" data-collapse="#collapse-content-d2">
-                                    <span class="flex items-center gap-3">
-                                        <span class="icon-[tabler--calendar-time] text-gold-soft text-lg"></span>
-                                        Track and organize daily appointments efficiently
-                                    </span>
-                                    <span
-                                        class="icon-[tabler--chevron-down] collapse-open:rotate-180 size-4 text-gold-soft transition-transform duration-300"></span>
-                                </button>
-                                <div id="collapse-content-d2" class="collapse hidden" aria-labelledby="collapse-d2">
-                                    <div>
-                                        Manage your consultation schedule, track cancellations, and plan ahead
-                                        seamlessly.
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li
-                                class="portal-item intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[700ms]">
-                                <button type="button" class="collapse-toggle" id="collapse-d3" aria-expanded="false"
-                                    aria-controls="collapse-content-d3" data-collapse="#collapse-content-d3">
-                                    <span class="flex items-center gap-3">
-                                        <span class="icon-[tabler--users-group] text-gold-soft text-lg"></span>
-                                        Collaborate seamlessly with nurses and other staff
-                                    </span>
-                                    <span
-                                        class="icon-[tabler--chevron-down] collapse-open:rotate-180 size-4 text-gold-soft transition-transform duration-300"></span>
-                                </button>
-                                <div id="collapse-content-d3" class="collapse hidden" aria-labelledby="collapse-d3">
-                                    <div>
-                                        Coordinate care and share notes securely with medical teams in real time.
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-
-                        <a href="./hms/doctor/index.php" target="_blank"
-                            class="login-section__button portal-btn intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[800ms]">
-                            Access Doctor Portal
-                            <span class="icon-[tabler--stethoscope]"></span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Admin Portal -->
-                <div id="tabs-default-3" class="hidden" role="tabpanel" aria-labelledby="tabs-default-item-3">
-                    <div id="admin" class="login-section__portal-content">
-                        <div
-                            class="intersect:motion-preset-slide-up-left intersect:motion-ease-spring intersect:motion-delay-[400ms]">
-                            <h2 class="portal-heading">Admin Portal</h2>
-                            <p class="portal-desc">
-                                Gain full control over hospital management — monitor departments, staff, and data
-                                analytics.
-                            </p>
+                                <a href="./hms/doctor/index.php" target="_blank"
+                                    class="login-section__button portal-btn">
+                                    Access Doctor Portal
+                                    <span class="icon-[tabler--activity-heartbeat]"></span>
+                                </a>
+                            </div>
                         </div>
 
-                        <ul class="portal-list">
-                            <li
-                                class="portal-item intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[500ms]">
-                                <button type="button" class="collapse-toggle" id="collapse-a1" aria-expanded="false"
-                                    aria-controls="collapse-content-a1" data-collapse="#collapse-content-a1">
-                                    <span class="flex items-center gap-3">
-                                        <span class="icon-[tabler--building-hospital] text-gold-soft text-lg"></span>
-                                        Oversee hospital departments and facilities
-                                    </span>
-                                    <span
-                                        class="icon-[tabler--chevron-down] collapse-open:rotate-180 size-4 text-gold-soft transition-transform duration-300"></span>
-                                </button>
-                                <div id="collapse-content-a1" class="collapse hidden" aria-labelledby="collapse-a1">
-                                    <div>
-                                        View departmental stats, manage facilities, and ensure smooth operational
-                                        workflows.
+                        <!-- admin panel -->
+                        <div class="panel">
+                            <div class="panel_content">
+                                <h2 class="portal-heading">Admin Portal</h2>
+                                <p class="portal-desc">
+                                    Gain full control over hospital management — monitor departments, staff, and
+                                    data
+                                    analytics.
+                                </p>
+
+                                <div class="accord">
+                                    <div class="accord-item portal-item">
+                                        <div class="accord-heading">
+                                            <p class="flex justify-center items-center gap-2">
+                                                <span
+                                                    class="icon-[tabler--building-hospital] text-gold-soft text-lg"></span>
+                                                Oversee hospital departments and facilities
+                                            </p>
+                                        </div>
+                                        <div class="accord-panel"> View departmental stats, manage facilities, and
+                                            ensure smooth operational
+                                            workflows.</div>
+                                    </div>
+
+                                    <div class="accord-item portal-item">
+                                        <div class="accord-heading">
+                                            <p class="flex justify-center items-center gap-2">
+                                                <span class="icon-[tabler--key] text-gold-soft text-lg"></span>
+                                                Manage staff roles, permissions, and accounts
+                                            </p>
+                                        </div>
+                                        <div class="accord-panel">Add, remove, or modify user roles with full permission
+                                            control and audit
+                                            tracking.</div>
+                                    </div>
+
+                                    <div class="accord-item portal-item">
+                                        <div class="accord-heading">
+                                            <p class="flex justify-center items-center gap-2">
+                                                <span class="icon-[tabler--chart-dots-3] text-gold-soft text-lg"></span>
+                                                Access detailed reports & performance analytics
+                                            </p>
+                                        </div>
+                                        <div class="accord-panel"> View real-time analytics for hospital operations,
+                                            finances, and resource
+                                            management.</div>
                                     </div>
                                 </div>
-                            </li>
 
-                            <li
-                                class="portal-item intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[600ms]">
-                                <button type="button" class="collapse-toggle" id="collapse-a2" aria-expanded="false"
-                                    aria-controls="collapse-content-a2" data-collapse="#collapse-content-a2">
-                                    <span class="flex items-center gap-3">
-                                        <span class="icon-[tabler--key] text-gold-soft text-lg"></span>
-                                        Manage staff roles, permissions, and accounts
-                                    </span>
-                                    <span
-                                        class="icon-[tabler--chevron-down] collapse-open:rotate-180 size-4 text-gold-soft transition-transform duration-300"></span>
-                                </button>
-                                <div id="collapse-content-a2" class="collapse hidden" aria-labelledby="collapse-a2">
-                                    <div>
-                                        Add, remove, or modify user roles with full permission control and audit
-                                        tracking.
-                                    </div>
-                                </div>
-                            </li>
-
-                            <li
-                                class="portal-item intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[700ms]">
-                                <button type="button" class="collapse-toggle" id="collapse-a3" aria-expanded="false"
-                                    aria-controls="collapse-content-a3" data-collapse="#collapse-content-a3">
-                                    <span class="flex items-center gap-3">
-                                        <span class="icon-[tabler--chart-dots-3] text-gold-soft text-lg"></span>
-                                        Access detailed reports & performance analytics
-                                    </span>
-                                    <span
-                                        class="icon-[tabler--chevron-down] collapse-open:rotate-180 size-4 text-gold-soft transition-transform duration-300"></span>
-                                </button>
-                                <div id="collapse-content-a3" class="collapse hidden" aria-labelledby="collapse-a3">
-                                    <div>
-                                        View real-time analytics for hospital operations, finances, and resource
-                                        management.
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-
-                        <a href="./hms/admin/index.php" target="_blank"
-                            class="login-section__button portal-btn intersect:motion-preset-slide-up-left intersect:motion-ease-spring-bouncier intersect:motion-delay-[800ms]">
-                            Access Admin Portal <span class="icon-[tabler--shield-lock]"></span>
-                        </a>
+                                <a href="./hms/admin/index.php" target="_blank"
+                                    class="login-section__button portal-btn">
+                                    Access Admin Portal
+                                    <span class="icon-[tabler--activity-heartbeat]"></span>
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -723,46 +671,36 @@
                 </p>
             </div>
 
-            <div class="grid gap-6 md:grid-cols-2">
-                <div class="intersect:motion-preset-slide-right  
+
+            <div class="gallery-grid">
+                <div class="gallery-large intersect:motion-preset-slide-right  
             intersect:motion-ease-spring-bouncier
-            intersect:motion-delay-[20ms]">
-                    <img src="./assets/images/gallery/gallery_03.jpg" alt="Coastal cliffs and ocean view"
-                        class="rounded-box aspect-5/4 min-h-121.75 object-cover" />
+            intersect:motion-delay-[200ms]">
+                    <img src="./assets/gallery/gallery_03.jpg" alt="gallery-img-03" />
                 </div>
 
-                <div class="grid grid-cols-2 gap-6 intersect:motion-preset-slide-right  
+                <div class="gallery-grid-2x2 intersect:motion-preset-slide-right  
             intersect:motion-ease-spring-bouncier
-            intersect:motion-delay-[10ms]">
-                    <img src="./assets/images/gallery/gallery_01.jpg" alt="Silhouettes on beach"
-                        class="rounded-box aspect-5/4 min-h-57.75 object-cover" />
-                    <img src="./assets/images/gallery/gallery_02.jpg" alt="Snowy mountain peaks"
-                        class="rounded-box aspect-5/4 min-h-57.75 object-cover" />
-                    <img src="./assets/images/gallery/gallery_06.jpg" alt="Rolling green hills"
-                        class="rounded-box aspect-5/4 min-h-57.75 object-cover" />
-                    <img src="./assets/images/gallery/gallery_08.jpg" alt="Sunset landscape"
-                        class="rounded-box aspect-5/4 min-h-57.75 object-cover" />
+            intersect:motion-delay-[100ms]">
+                    <img src="./assets/gallery/gallery_01.jpg" alt="gallery-img-01" />
+                    <img src="./assets/gallery/gallery_02.jpg" alt="gallery-img-02" />
+                    <img src="./assets/gallery/gallery_06.jpg" alt="gallery-img-06" />
+                    <img src="./assets/gallery/gallery_08.jpg" alt="gallery-img-08" />
                 </div>
 
-                <div class="grid grid-cols-2 gap-6 intersect:motion-preset-slide-left  
+                <div class="gallery-grid-2x2 intersect:motion-preset-slide-left  
             intersect:motion-ease-spring-bouncier
-            intersect:motion-delay-[10ms]">
-                    <img src="./assets/images/gallery/gallery_04.jpg" alt="Silhouettes on beach"
-                        class="rounded-box aspect-5/4 min-h-57.75 object-cover" />
-                    <img src="./assets/images/gallery/gallery_13.jpg" alt="Snowy mountain peaks"
-                        class="rounded-box aspect-5/4 min-h-57.75 object-cover" />
-                    <img src="./assets/images/gallery/gallery_01.jpg" alt="Sunset landscape"
-                        class="rounded-box aspect-5/4 min-h-57.75 object-cover" />
-                    <img src="./assets/images/gallery/gallery_05.jpg" alt="Rolling green hills"
-                        class="rounded-box aspect-5/4 min-h-57.75 object-cover" />
-
+            intersect:motion-delay-[100ms]">
+                    <img src="./assets/gallery/gallery_01.jpg" alt="gallery-img-04" />
+                    <img src="./assets/gallery/gallery_13.jpg" alt="gallery-img-13" />
+                    <img src="./assets/gallery/gallery_01.jpg" alt="gallery-img-01" />
+                    <img src="./assets/gallery/gallery_05.jpg" alt="gallery-img-05" />
                 </div>
 
-                <div class="intersect:motion-preset-slide-left  
+                <div class="gallery-large intersect:motion-preset-slide-left  
             intersect:motion-ease-spring-bouncier
-            intersect:motion-delay-[20ms]">
-                    <img src="./assets/images/gallery/gallery_14.jpeg" alt="Coastal cliffs and ocean view"
-                        class="rounded-box aspect-5/4 min-h-121.75 object-cover" />
+            intersect:motion-delay-[200ms]">
+                    <img src="./assets/gallery/gallery_14.jpeg" alt="gallery-img-014" />
                 </div>
             </div>
         </div>
@@ -819,7 +757,7 @@
                         </div>
                         <div>
                             <h4>Email</h4>
-                            <p>support@heavencare.com</p>
+                            <p>support@heavenKare.care</p>
                         </div>
                     </div>
                 </div>
@@ -883,12 +821,13 @@
                 </div>
 
                 <!-- Contact Info -->
-                <div class="footer-section__contact">
+                <div class="footer-section__contact space-y-3">
                     <h4 class="footer-section__title">Contact Us</h4>
-                    <p>House 45, Gulshan Avenue, Dhaka-1212, Bangladesh</p>
+                    <p>123 Serenity Avenue, Dhanmondi
+                        Dhaka, Bangladesh </p>
                     <p>Phone: +880 1712 345678</p>
-                    <p>Email: info@heavencare.com</p>
-                    <p>Mon – Sat: 9AM – 8PM</p>
+                    <p>Email: info@heavenKare.care</p>
+                    <p>Open 24/7 (Monday to Sunday)</p>
                 </div>
 
                 <!-- Newsletter / Stay Updated -->
@@ -941,8 +880,20 @@
     });
     </script>
 
-    <script src="./node_modules/flyonui/flyonui.js"></script>
+
+
+    <!-- script files or cdn's -->
     <script defer src="https://unpkg.com/tailwindcss-intersect@2.x.x/dist/observer.min.js"></script>
+
+    <script src="./dist/jquery.min.js"></script>
+    <script src="./dist/jquery.accord-min.js"></script>
+    <script src="./dist/sliding_panels.js"></script>
+    <script src="./dist/glide.min.js"></script>
+
+    <!-- <script src="./dist/main.js"></script> -->
+    <script src="./dist/script.js"></script>
+    <script src="./dist/loader.js"></script>
+
 </body>
 
 </html>

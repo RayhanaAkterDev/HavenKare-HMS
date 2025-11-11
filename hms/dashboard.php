@@ -1,224 +1,415 @@
 <?php
 session_start();
-//error_reporting(0);
 include('include/config.php');
-include('include/checklogin.php');
-check_login();
-?>
 
-<?php
-$currentPage = basename($_SERVER['PHP_SELF']); // gets current filename
+// ----------------------------
+// 1️⃣ Check if user is logged in
+// ----------------------------
+if (empty($_SESSION['dlogin']) || empty($_SESSION['id'])) {
+    header("Location: user-login.php");
+    exit();
+}
+
+// ----------------------------
+// 2️⃣ Optional: Token validation (only if token exists)
+// ----------------------------
+$userId = intval($_SESSION['id']);
+$sessionToken = $_SESSION['token'] ?? '';
+
+if (!empty($sessionToken)) {
+    $res = mysqli_query($con, "SELECT session_token FROM users WHERE id='$userId' LIMIT 1");
+    $row = mysqli_fetch_assoc($res);
+
+    if (!$row || $row['session_token'] !== $sessionToken) {
+        session_unset();
+        session_destroy();
+        header("Location: user-login.php");
+        exit();
+    }
+}
+
+// ----------------------------
+// 3️⃣ Fetch user info
+// ----------------------------
+$uid = $userId;
+$username = 'User';
+$email = '';
+$initial = 'U';
+
+$res = mysqli_query($con, "SELECT fullName, email FROM users WHERE id='$uid' LIMIT 1");
+if ($res && mysqli_num_rows($res) > 0) {
+    $row = mysqli_fetch_assoc($res);
+    $username = $row['fullName'] ?? 'User';
+    $email = $row['email'] ?? '';
+    $initial = strtoupper(substr($username, 0, 1));
+}
+
+// ----------------------------
+// 4️⃣ Fetch user data, appointments, doctors, history
+// ----------------------------
+$data = [];
+$res = mysqli_query($con, "SELECT * FROM users WHERE id='$uid' LIMIT 1");
+if ($res && mysqli_num_rows($res) > 0) {
+    $data = mysqli_fetch_assoc($res);
+}
+
+// Appointments
+$res = mysqli_query($con, "SELECT * FROM appointment WHERE userid='$uid' AND appointmentDate >= CURDATE()");
+$totalAppointments = ($res) ? mysqli_num_rows($res) : 0;
+
+$activeAppointmentsRes = mysqli_query($con, "SELECT * FROM appointment WHERE userid='$uid' AND appointmentDate >= CURDATE() AND userStatus=1");
+$numUpcomingAppointments = ($activeAppointmentsRes) ? mysqli_num_rows($activeAppointmentsRes) : 0;
+
+$numAppointments = ($totalAppointments > 0) ? $totalAppointments : 0;
+
+// Assigned doctors
+$docRes = mysqli_query($con, "SELECT DISTINCT doctorId FROM appointment WHERE userid='$uid'");
+$numDoctors = ($docRes) ? mysqli_num_rows($docRes) : 0;
+
+// Medical history
+$historyData = [];
+$checkRes = mysqli_query($con, "SELECT * FROM tblmedicalhistory WHERE PatientID='$uid' ORDER BY CreationDate ASC");
+while ($row = mysqli_fetch_assoc($checkRes)) {
+    $historyData[] = $row;
+}
+
+// Recent activity
+$recentActivity = [];
+$activityRes = mysqli_query($con, "
+    SELECT CONCAT('Appointment with Dr. ', d.doctorName, ' on ', a.appointmentDate, ' at ', a.appointmentTime) AS activity,
+           a.postingDate AS activityTime
+    FROM appointment a
+    JOIN doctors d ON a.doctorId = d.id
+    WHERE a.userid='$uid'
+    UNION ALL
+    SELECT CONCAT('Medical Checkup: BP-', mh.BloodPressure, ', Weight-', mh.Weight, ', Temp-', mh.Temperature) AS activity,
+           mh.CreationDate AS activityTime
+    FROM tblmedicalhistory mh
+    WHERE mh.PatientID='$uid'
+    ORDER BY activityTime DESC
+    LIMIT 5
+");
+if ($activityRes && mysqli_num_rows($activityRes) > 0) {
+    while ($row = mysqli_fetch_assoc($activityRes)) {
+        $recentActivity[] = $row;
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Dashboard</title>
-
-    <!-- Google fonts -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Dashboard | HeavenKare Patient</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-        href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Poppins:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet" />
-
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
-
-    <!-- Tailwind CSS -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="../src/output.css" rel="stylesheet" />
+
+    <style>
+    :root {
+        --sidebar-w: 280px;
+    }
+    </style>
+
 </head>
 
-<body>
-    <div class="bg-base-200 flex min-h-screen flex-col">
-        <!-- ---------- HEADER ---------- -->
-        <?php include('include/header.php'); ?>
-        <!-- ---------- END HEADER ---------- -->
+<body class="dashboard-body">
 
-        <!-- ---------- SIDEBAR ---------- -->
-        <?php include('include/sidebar.php'); ?>
-        <!-- ---------- END SIDEBAR ---------- -->
+    <!-- Fullscreen Overlay Loader -->
+    <div id="loader-overlay"
+        class="fixed inset-0 bg-[#141421] flex items-center justify-center z-[99999] opacity-100 transition-opacity duration-400">
+        <div class="w-12 h-12 rounded-full border-4 border-[rgba(255,255,255,0.2)] border-t-[#ff6e7f] animate-spin">
+        </div>
+    </div>
 
-        <div class="flex grow flex-col lg:ps-75">
-            <!-- ---------- MAIN CONTENT ---------- -->
-            <main class="mx-auto w-full max-w-7xl flex-1 p-6">
-                <!-- ---------- LOGIN SUCCESS MESSAGE ---------- -->
-                <?php if (!empty($_SESSION['success_msg'])): ?>
-                <div id="loginSuccessMsg"
-                    class="mb-6 bg-green-100 border border-green-300 text-green-800 p-4 rounded-lg shadow-md flex items-center gap-2 transition-opacity duration-700">
-                    <i class="fa-solid fa-circle-check"></i>
-                    <span><?php echo $_SESSION['success_msg']; ?></span>
-                </div>
-                <?php $_SESSION['success_msg'] = "";
-                endif; ?>
+    <div id="app" class="dashboard-container">
+        <?php include('./include/sidebar.php'); ?>
+        <div id="overlay" class="dashboard-overlay"></div>
 
-                <!-- ---------- DASHBOARD CONTENT ---------- -->
-                <div class="grid grid-cols-1 gap-6">
-                    <div class="card w-full p-6 ">
-                        <!-- Patient Dashboard -->
-                        <div class="space-y-8">
+        <div id="main" class="dashboard-main">
+            <?php include('include/header.php'); ?>
 
-                            <!-- Welcome Section -->
-                            <div
-                                class="rounded-xl bg-gradient-to-r from-purple-600 to-purple-700 text-white p-8 flex flex-col sm:flex-row items-center justify-between shadow-lg">
-                                <div>
-                                    <h2 class="text-2xl font-semibold">Welcome Back,
-                                        <span class="font-bold">
-                                            <?php
-                                            $query = mysqli_query($con, "SELECT fullName FROM users WHERE id='" . $_SESSION['id'] . "'");
-                                            $row = mysqli_fetch_array($query);
-                                            echo $row['fullName'];
-                                            ?>
-                                        </span>
-                                        👋
-                                    </h2>
-                                    <p class="text-indigo-100 mt-2">Here’s a quick overview of your health
-                                        dashboard.</p>
-                                </div>
-                                <div class="mt-4 sm:mt-0">
-                                    <a href="book-appointment.php"
-                                        class="btn bg-white text-indigo-700 font-medium hover:bg-indigo-50 transition-all">
-                                        <i class="fa-solid fa-calendar-plus me-2"></i> Book Appointment
-                                    </a>
-                                </div>
-                            </div>
+            <main id="main-content" class="dashboard-main-content ">
+                <div class="adminui-table__wrapper relative !p-4">
 
-                            <!-- Stats Overview -->
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                                <div class="card border-t-4 border-indigo-500 bg-white shadow-sm p-5 rounded-xl">
-                                    <div class="flex justify-between items-center">
-                                        <div>
-                                            <h3 class="text-sm text-gray-500">Upcoming Appointments</h3>
-                                            <p class="text-2xl font-semibold text-gray-800 mt-1">3</p>
-                                        </div>
-                                        <i class="fa-solid fa-stethoscope text-indigo-600 text-2xl"></i>
-                                    </div>
-                                </div>
+                    <?php if (isset($_SESSION['success_msg'])): ?>
+                    <div id="toast-success"
+                        class="absolute top-4 right-4 z-50 !admin-card-section-full bg-[#1F2937] text-white px-5 py-4 rounded-xl shadow-lg flex items-start space-x-4 opacity-0 translate-x-4 transform transition-all duration-500 pointer-events-auto">
 
-                                <div class="card border-t-4 border-green-500 bg-white shadow-sm p-5 rounded-xl">
-                                    <div class="flex justify-between items-center">
-                                        <div>
-                                            <h3 class="text-sm text-gray-500">Total Visits</h3>
-                                            <p class="text-2xl font-semibold text-gray-800 mt-1">12</p>
-                                        </div>
-                                        <i class="fa-solid fa-hospital-user text-green-600 text-2xl"></i>
-                                    </div>
-                                </div>
-
-                                <div class="card border-t-4 border-yellow-500 bg-white shadow-sm p-5 rounded-xl">
-                                    <div class="flex justify-between items-center">
-                                        <div>
-                                            <h3 class="text-sm text-gray-500">Pending Reports</h3>
-                                            <p class="text-2xl font-semibold text-gray-800 mt-1">2</p>
-                                        </div>
-                                        <i class="fa-solid fa-file-medical text-yellow-500 text-2xl"></i>
-                                    </div>
-                                </div>
-
-                                <div class="card border-t-4 border-pink-500 bg-white shadow-sm p-5 rounded-xl">
-                                    <div class="flex justify-between items-center">
-                                        <div>
-                                            <h3 class="text-sm text-gray-500">Prescriptions</h3>
-                                            <p class="text-2xl font-semibold text-gray-800 mt-1">8</p>
-                                        </div>
-                                        <i class="fa-solid fa-pills text-pink-500 text-2xl"></i>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Upcoming Appointments -->
-                            <div class="card bg-white shadow-sm p-6 rounded-xl">
-                                <div class="flex items-center justify-between mb-4">
-                                    <h3 class="text-lg font-semibold text-gray-800">Upcoming Appointments</h3>
-                                    <a href="appointment-history.php"
-                                        class="text-sm text-indigo-600 hover:text-indigo-800 font-medium">View
-                                        All</a>
-                                </div>
-
-                                <div class="overflow-x-auto">
-                                    <table class="table w-full border">
-                                        <thead class="bg-gray-100 text-gray-700">
-                                            <tr>
-                                                <th>Date</th>
-                                                <th>Doctor</th>
-                                                <th>Specialization</th>
-                                                <th>Status</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td>5 Nov 2025</td>
-                                                <td>Dr. Ayesha Rahman</td>
-                                                <td>Cardiology</td>
-                                                <td><span class="badge badge-success">Confirmed</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>12 Nov 2025</td>
-                                                <td>Dr. Tahmid Hasan</td>
-                                                <td>Neurology</td>
-                                                <td><span class="badge badge-warning">Pending</span></td>
-                                            </tr>
-                                            <tr>
-                                                <td>22 Nov 2025</td>
-                                                <td>Dr. Nabila Karim</td>
-                                                <td>Dermatology</td>
-                                                <td><span class="badge badge-info">Upcoming</span></td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-                            <!-- Quick Access -->
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <a href="appointment-history.php"
-                                    class="flex items-center justify-center gap-3 p-5 bg-gradient-to-r from-indigo-100 to-indigo-50 border border-indigo-200 rounded-xl shadow hover:shadow-md transition">
-                                    <i class="fa-solid fa-calendar-check text-indigo-600 text-2xl"></i>
-                                    <span class="font-medium text-gray-700">View Appointment History</span>
-                                </a>
-
-                                <a href="view-prescriptions.php"
-                                    class="flex items-center justify-center gap-3 p-5 bg-gradient-to-r from-green-100 to-green-50 border border-green-200 rounded-xl shadow hover:shadow-md transition">
-                                    <i class="fa-solid fa-prescription-bottle-medical text-green-600 text-2xl"></i>
-                                    <span class="font-medium text-gray-700">My Prescriptions</span>
-                                </a>
-
-                                <a href="medical-reports.php"
-                                    class="flex items-center justify-center gap-3 p-5 bg-gradient-to-r from-yellow-100 to-yellow-50 border border-yellow-200 rounded-xl shadow hover:shadow-md transition">
-                                    <i class="fa-solid fa-notes-medical text-yellow-600 text-2xl"></i>
-                                    <span class="font-medium text-gray-700">My Reports</span>
-                                </a>
-                            </div>
-
+                        <div class="flex-shrink-0 mt-1">
+                            <i class="fa-solid fa-circle-check text-green-400 text-xl"></i>
                         </div>
-                        <!-- End Dashboard -->
+
+                        <div class="flex-1 text-sm md:text-base font-medium leading-snug pt-1">
+                            <?= $_SESSION['success_msg'] ?>
+                        </div>
+
+                        <button id="toast-success-close" class="flex-shrink-0 text-gray-400 hover:text-gray-200 mt-1">
+                            <i class="fa-solid fa-xmark"></i>
+                        </button>
+                    </div>
+                    <?php unset($_SESSION['success_msg']);
+                    endif; ?>
+
+                    <!-- Breadcrumb -->
+                    <div class="dashboard-header__breadcrumb mb-4">
+                        HeavenKare /
+                        <?php
+                        $currentPath = $_SERVER['PHP_SELF'];
+                        $parts = explode('/', trim($currentPath, '/'));
+                        $lastTwo = array_slice($parts, -2);
+                        foreach ($lastTwo as &$part) {
+                            $part = ucwords(str_replace(['-', '_', '.php'], [' ', ' ', ''], $part));
+                        }
+                        echo implode(' / ', $lastTwo);
+                        ?>
+                    </div>
+
+                    <!-- Header -->
+                    <header class="admin-card-section-full admin-card-header !py-4 mb-6">
+                        <h1 class="!text-2xl lg:!text-4xl">Welcome back,
+                            <span><?= htmlentities($username) ?>!</span>
+                        </h1>
+                        <p>Here's a quick summary of your hospital statistics and recent activity.</p>
+                    </header>
+
+                    <!-- Main Grid -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                        <!-- Appointment -->
+                        <div class="dashboard-card dashboard-card--sky order-1">
+                            <div class="dashboard-card__info">
+                                <div class="dashboard-card__icon"><i class="fa-solid fa-calendar-check text-lg"></i>
+                                </div>
+                                <div class="dashboard-card__text">
+                                    <p class="dashboard-card__label">Appointments</p>
+                                    <h2 class="dashboard-card__value"><?= $numAppointments ?></h2>
+                                </div>
+                            </div>
+                            <div class="dashboard-card__footer">
+                                <a href="appointment-history.php" class="dashboard-card__link">
+                                    See details <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Doctor -->
+                        <div class="dashboard-card dashboard-card--emerald order-2">
+                            <div class="dashboard-card__info">
+                                <div class="dashboard-card__icon"><i class="fa-solid fa-user-doctor text-lg"></i></div>
+                                <div class="dashboard-card__text">
+                                    <p class="dashboard-card__label">Assigned Doctors</p>
+                                    <h2 class="dashboard-card__value"><?= $numDoctors ?></h2>
+                                </div>
+                            </div>
+                            <div class="dashboard-card__footer">
+                                <a href="book-appointment.php" class="dashboard-card__link">
+                                    Book New Appointment <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Medical History -->
+                        <div class="dashboard-card dashboard-card--violet order-3">
+                            <div class="dashboard-card__info">
+                                <div class="dashboard-card__icon"><i class="fa-solid fa-file-medical text-lg"></i></div>
+                                <div class="dashboard-card__text">
+                                    <p class="dashboard-card__label">Medical Record</p>
+                                    <h2 class="dashboard-card__value"><?= count($historyData) ?></h2>
+                                </div>
+                            </div>
+                            <div class="dashboard-card__footer">
+                                <a href="medical-history.php" class="dashboard-card__link">
+                                    View History <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Medications -->
+                        <div class="dashboard-card dashboard-card--yellow order-4">
+                            <div class="dashboard-card__info">
+                                <div class="dashboard-card__icon"><i class="fa-solid fa-pills text-lg"></i></div>
+                                <div class="dashboard-card__text">
+                                    <p class="dashboard-card__label">Medications</p>
+                                    <h2 class="dashboard-card__value">0</h2>
+                                </div>
+                            </div>
+                            <div class="dashboard-card__footer">
+                                <a href="#" class="dashboard-card__link">
+                                    View Medications <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+
+                        <!-- Upcoming Checkups -->
+                        <aside
+                            class="dashboard-recent-activity col-span-1 sm:col-span-2 md:col-span-2 lg:col-span-2 order-5 dashboard-card--white">
+                            <h4 class="dashboard-heading dashboard-heading__title">Upcoming Checkups</h4>
+                            <ul class="dashboard-recent-activity__list">
+                                <?php
+                                $userId = intval($_SESSION['id'] ?? 0);
+                                if ($userId > 0) {
+                                    $appointments = mysqli_query($con, "
+                                        SELECT a.*, d.doctorName 
+                                        FROM appointment a
+                                        JOIN doctors d ON a.doctorId = d.id
+                                        WHERE a.userId = '$userId' AND a.appointmentDate >= CURDATE() AND a.userStatus=1
+                                        ORDER BY a.appointmentDate ASC, a.appointmentTime ASC
+                                    ");
+
+                                    if ($appointments && mysqli_num_rows($appointments) > 0) {
+                                        while ($appointment = mysqli_fetch_assoc($appointments)) {
+                                            $appointmentDateTime = date('Y-m-d \a\t h:i A', strtotime($appointment['appointmentDate'] . ' ' . $appointment['appointmentTime']));
+                                            echo '<li class="dashboard-recent-activity__item">
+                                                <span>Appointment with Dr. ' . htmlentities($appointment['doctorName']) . '</span>
+                                                <span class="dashboard-recent-activity__time">' . $appointmentDateTime . '</span>
+                                              </li>';
+                                        }
+                                    } else {
+                                        echo '<li class="dashboard-recent-activity__item">No upcoming checkups</li>';
+                                    }
+                                }
+                                ?>
+                            </ul>
+                            <div class="dashboard-card__footer">
+                                <a href="appointment-history.php" class="dashboard-card__link">
+                                    See more <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
+                            </div>
+                        </aside>
+
+                        <!-- Overview Chart -->
+                        <div
+                            class="dashboard-overview col-span-1 sm:col-span-2 md:col-span-2 lg:!col-span-3 order-6 dashboard-card--white">
+                            <h3 class="dashboard-heading dashboard-heading__title">Health Overview</h3>
+                            <p class="dashboard-heading__subtitle">Track your health metrics and appointment trends.</p>
+                            <div class="dashboard-overview__chart">
+                                <canvas id="healthChart"></canvas>
+                            </div>
+                        </div>
 
                     </div>
                 </div>
             </main>
-            <!-- ---------- END MAIN CONTENT ---------- -->
 
-            <!-- ---------- FOOTER CONTENT ---------- -->
-            <?php include('include/footer.php'); ?>
-            <!-- ---------- END FOOTER CONTENT ---------- -->
+            <footer class="dashboard-footer fixed-footer">© 2025 HeavenKare. All rights reserved.</footer>
         </div>
     </div>
 
-    <script src="../node_modules/flyonui/flyonui.js"></script>
-
-    <!-- Fade out login success message -->
     <script>
-    const successMsg = document.getElementById('loginSuccessMsg');
-    if (successMsg) {
+    const ctx = document.getElementById('healthChart').getContext('2d');
+    const healthChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: <?= json_encode(array_map(fn($h) => date('d M', strtotime($h['CreationDate'])), $historyData)) ?>,
+            datasets: [{
+                    label: 'Blood Pressure',
+                    data: <?= json_encode(array_map(fn($h) => (int)$h['BloodPressure'], $historyData)) ?>,
+                    borderColor: '#ff6e7f',
+                    backgroundColor: 'rgba(255,110,127,0.2)',
+                    tension: 0.3
+                },
+                {
+                    label: 'Weight',
+                    data: <?= json_encode(array_map(fn($h) => (float)$h['Weight'], $historyData)) ?>,
+                    borderColor: '#8e44ad',
+                    backgroundColor: 'rgba(142,68,173,0.2)',
+                    tension: 0.3
+                },
+                {
+                    label: 'Temperature',
+                    data: <?= json_encode(array_map(fn($h) => (float)$h['Temperature'], $historyData)) ?>,
+                    borderColor: '#f39c12',
+                    backgroundColor: 'rgba(243,156,18,0.2)',
+                    tension: 0.3
+                }
+            ]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'top'
+                }
+            },
+            scales: {
+                y: {
+                    beginAtZero: false
+                }
+            }
+        }
+    });
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="../dist/main.js"></script>
+    <script src="../dist/loader.js"></script>
+
+    <!-- Logout pop up -->
+    <script>
+    ['logoutSidebar', 'logoutHeader'].forEach(id => {
+        const btn = document.getElementById(id);
+        if (btn) {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                Swal.fire({
+                    title: 'Logout Confirmation',
+                    text: "Are you sure you want to logout?",
+                    icon: 'warning',
+                    background: '#2A2A40',
+                    color: '#EAEAEA',
+                    iconColor: '#60A5FA',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3B82F6',
+                    cancelButtonColor: '#EF4444',
+                    confirmButtonText: 'Yes, Logout',
+                    cancelButtonText: 'Cancel',
+                    customClass: {
+                        popup: 'rounded-2xl shadow-lg border border-[#3A3A5A] p-4 sm:p-6 md:p-8 text-center',
+                        title: 'text-base sm:text-lg md:text-xl font-semibold text-[#EAEAEA]',
+                        htmlContainer: 'text-sm sm:text-base md:text-lg text-gray-300',
+                        confirmButton: 'px-4 py-2 sm:px-6 sm:py-2.5 rounded-lg text-sm sm:text-base font-medium',
+                        cancelButton: 'px-4 py-2 sm:px-6 sm:py-2.5 rounded-lg text-sm sm:text-base font-medium'
+                    }
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        window.location.href = 'logout.php';
+                    }
+                });
+            });
+        }
+    });
+    </script>
+
+    <!-- Dashboard success login msg -->
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const toast = document.getElementById('toast-success');
+        if (!toast) return;
+        const closeBtn = document.getElementById('toast-success-close');
         setTimeout(() => {
-            successMsg.classList.add('opacity-0');
-            setTimeout(() => successMsg.remove(), 700);
-        }, 500);
-        c: \xampp\ htdocs\ Hospital - Management - System - PHP\ hospital\ hms\ get_doctor.php
-    }
+            toast.classList.remove('translate-x-4', 'opacity-0');
+            toast.classList.add('translate-x-0', 'opacity-100');
+        }, 100);
+        const timer = setTimeout(() => {
+            toast.classList.remove('translate-x-0', 'opacity-100');
+            toast.classList.add('translate-x-4', 'opacity-0');
+            setTimeout(() => toast.remove(), 1200);
+        }, 4000);
+        closeBtn.addEventListener('click', () => {
+            clearTimeout(timer);
+            toast.classList.remove('translate-x-0', 'opacity-100');
+            toast.classList.add('translate-x-4', 'opacity-0');
+            setTimeout(() => toast.remove(), 500);
+        });
+    });
     </script>
 
 </body>

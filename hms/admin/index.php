@@ -1,33 +1,48 @@
 <?php
 session_start();
-error_reporting(0);
 include("../include/config.php");
+error_reporting(E_ALL);
 
-// Handle login submission
+if (!$con) {
+    die("Database connection failed: " . mysqli_connect_error());
+}
+
 if (isset($_POST['submit'])) {
     $uname = trim($_POST['username']);
     $upassword = trim($_POST['password']);
+    $uip = $_SERVER['REMOTE_ADDR'];
 
-    // ✅ Use prepared statement to prevent SQL injection
-    $stmt = mysqli_prepare($con, "SELECT id, username, password FROM admin WHERE username = ?");
-    mysqli_stmt_bind_param($stmt, "s", $uname);
+    $stmt = mysqli_prepare($con, "SELECT id, username FROM admin WHERE username = ? AND password = ?");
+    mysqli_stmt_bind_param($stmt, "ss", $uname, $upassword);
     mysqli_stmt_execute($stmt);
-    $result = mysqli_stmt_get_result($stmt);
-    $num = mysqli_fetch_assoc($result);
+    mysqli_stmt_store_result($stmt);
+    mysqli_stmt_bind_result($stmt, $id, $username);
 
-    if ($num && $upassword === $num['password']) {
-        // ✅ Verify credentials (non-hashed for now; matches your DB)
-        $_SESSION['login'] = $num['username'];
-        $_SESSION['id'] = $num['id']; // this is what fixes your dashboard/aside issue
+    if (mysqli_stmt_num_rows($stmt) === 1) {
+        mysqli_stmt_fetch($stmt);
+
+        $_SESSION['login'] = $username;
+        $_SESSION['id'] = $id;
+        $_SESSION['isLoggedIn'] = true;
+
+        mysqli_query($con, "INSERT INTO userlog(uid, username, userip, status) VALUES('$id','$uname','$uip',1)");
+
+        session_write_close();
         header("Location: dashboard.php");
         exit();
     } else {
         $_SESSION['errmsg'] = "Invalid username or password";
+        mysqli_query($con, "INSERT INTO userlog(uid, username, userip, status) VALUES(NULL,'$uname','$uip',0)");
+
+        session_write_close();
         header("Location: index.php");
         exit();
     }
+
+    mysqli_stmt_close($stmt);
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en" class="php-bg">
@@ -52,6 +67,17 @@ if (isset($_POST['submit'])) {
 </head>
 
 <body class="bg-transparent">
+
+    <!-- Fullscreen Overlay Loader -->
+    <div id="loader-overlay"
+        class="fixed inset-0 flex items-center justify-center z-[99999] bg-gradient-to-br from-[#e7f3ff] via-white to-[#f9fdff] opacity-100 transition-opacity duration-400 overflow-hidden">
+
+        <!-- Spinner -->
+        <div
+            class="w-12 h-12 rounded-full border-4 border-[rgba(0,0,0,0.1)] border-t-transparent border-b-transparent border-l-sky-600 border-r-sky-800 animate-spin">
+        </div>
+    </div>
+
     <section class="php-section">
         <div class="php-container">
 
@@ -80,13 +106,10 @@ if (isset($_POST['submit'])) {
 
                     <form method="POST" class="php-form space-y-4">
                         <!-- error message -->
-                        <?php if (!empty($_SESSION['errmsg'])): ?>
-                        <div class="php-error text-red-600 text-sm flex items-center gap-1">
+                        <span id="loginError" class="php-error hidden flex items-center gap-1 text-red-600 text-sm">
                             <i class="fas fa-circle-exclamation"></i>
-                            <span><?php echo htmlentities($_SESSION['errmsg']); ?></span>
-                        </div>
-                        <?php $_SESSION['errmsg'] = ""; ?>
-                        <?php endif; ?>
+                            <span id="loginErrorText"></span>
+                        </span>
 
                         <div class="php-field">
                             <i class="fa-regular fa-user php-icon"></i>
@@ -116,12 +139,27 @@ if (isset($_POST['submit'])) {
     </section>
 
     <script>
+    function showError(msg) {
+        const errorDiv = document.getElementById('loginError');
+        const errorText = document.getElementById('loginErrorText');
+        errorText.textContent = msg;
+        errorDiv.classList.remove('hidden');
+        errorDiv.classList.add('show');
+    }
+
+    <?php if (!empty($_SESSION['errmsg'])): ?>
+    showError("<?php echo $_SESSION['errmsg']; ?>");
+    <?php $_SESSION['errmsg'] = ""; ?>
+    <?php endif; ?>
+
     window.addEventListener('pageshow', function(event) {
         if (event.persisted) {
             window.location.reload();
         }
     });
     </script>
+
+    <script src="../../dist/loader.js"></script>
 </body>
 
 </html>

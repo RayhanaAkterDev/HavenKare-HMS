@@ -1,12 +1,18 @@
 <?php
-session_start();
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 include('include/config.php');
-$_SESSION['login'] == "";
-date_default_timezone_set('Asia/Kolkata');
-$ldate = date('d-m-Y h:i:s A', time());
-mysqli_query($con, "UPDATE userlog  SET logout = '$ldate' WHERE uid = '" . $_SESSION['id'] . "' ORDER BY id DESC LIMIT 1");
+
+$uid = $_SESSION['id'] ?? null;
+if ($uid) {
+    mysqli_query($con, "UPDATE users SET session_token=NULL WHERE id='$uid'");
+}
+
+// Destroy session completely
+$_SESSION = [];
 session_unset();
-?>
-<script language="javascript">
-document.location = "../index.php";
-</script>
+session_destroy();
+
+header("Location: user-login.php");
+exit();
